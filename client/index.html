@@ -1,0 +1,16 @@
+<html>
+	<body>
+		<div id="positionStatus"></div>
+		<br>
+		<div class="gameContainer">
+			<canvas id="gameCanvas" width="800" height="800" style="border:1px solid #000000;">this browser doesnt work with canvas</canvas></canvas>
+			<canvas id="gameUI" width="300" height="800" style="border:1px solid #000000;">this browser doesnt work with canvas</canvas></canvas>
+		</div>
+
+		<script type = "module">
+			import { io } from "https://cdn.socket.io/4.3.0/socket.io.esm.min.js";
+
+			io();
+		</script>
+	</body>
+</html>
