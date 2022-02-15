@@ -1,0 +1,8 @@
+{
+    "entityDict" : {
+        "#" : {
+            "entityType" : "Wall"
+        }
+    },
+    "spawn" : [100, 100]
+}
