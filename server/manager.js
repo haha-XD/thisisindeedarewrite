@@ -1,12 +1,12 @@
-import { DefaultDict } from "../client/common/helper.js";
-import { World } from "./world.js";
+import DefaultDict from '../client/common/utils/defaultdict.js';
+import { World } from './world.js';
 
 export class Manager {
     tick = 0;
     worlds = {}
 
     createWorld(worldName) {
-        const world = World.load_world(worldName)
+        const world = new World(worldName)
         this.worlds[world.id] = world;
     }
 
