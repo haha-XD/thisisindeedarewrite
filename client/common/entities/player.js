@@ -5,9 +5,10 @@ import Vector2 from '../utils/vector2.js';
 export class Player extends Entity {
     category = ENTITY_CATEGORY.players;
     
-    constructor({x, y, size, speed}) {
+    constructor({x, y, size, speed, socketId}) {
         super(x, y, size);
         this.speed = speed;
+        this.socketId = socketId;
     }
 
     applyInput(rot, inputs, wallEntities) {
