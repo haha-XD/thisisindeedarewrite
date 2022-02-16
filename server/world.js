@@ -2,6 +2,7 @@ import fs from 'fs';
 
 import { TILE_SIZE } from '../client/common/constants.js';
 import * as entityTypes from '../client/common/entities/index.js';
+import Point from '../client/common/utils/point.js';
 
 let wId = 0;
 
@@ -13,16 +14,34 @@ export class World {
         walls : {},
         projectiles : {}
     };
-    worldSpawn = [0,0];
 
     constructor(worldName) {
         const worldData = JSON.parse(fs.readFileSync(`./server/worlds/${worldName}/world-data.json`, 'utf8'));
         
         this.loadMap(worldName, worldData['entityDict']);
-        this.worldSpawn = worldData['spawn'];
+        this.worldSpawn = new Point(worldData['spawn'][0], worldData['spawn'][1]);
 
         this.id = wId;
         wId++;
+    }
+
+    spawnPlayer(socket) {
+        const player = new entityTypes.Player({
+            x: this.worldSpawn.x,
+            y: this.worldSpawn.y,
+            size: 32,
+            speed: 5,
+            socketId: socket.id
+        })
+        this.entities.players[player.id] = player;
+        return player;
+    }
+
+    deleteEntity(id) {
+        for (const entityType in this.entities) {
+            let entities = this.entities[entityType];
+            delete entities[id];
+        }
     }
 
     loadMap(mapName, entityDict) {

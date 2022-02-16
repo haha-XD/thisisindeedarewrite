@@ -5,6 +5,10 @@ export class Manager {
     tick = 0;
     worlds = {}
 
+    constructor(io) {
+        this.io = io
+    }
+
     createWorld(worldName) {
         const world = new World(worldName)
         this.worlds[world.id] = world;

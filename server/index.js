@@ -4,17 +4,22 @@ import http from 'http'
 import { Server } from 'socket.io';
 
 import { Manager } from './manager.js'
+import Profile from './profile.js';
+import * as h from './handlers/index.js'
+
+app.use(express.static('client'));
 
 const server = http.createServer(app);
 const io = new Server(server);
-app.use(express.static('client'));
+const manager = new Manager(io);
 
-const manager = new Manager();
 manager.createWorld('nexus');
-io.manager = manager;
 
 const onConnection = (socket) => {
-    console.log('hi')
+    socket.profile = new Profile(manager, socket)
+
+    h.registerInputHandlers(manager, socket);
+    h.registerManagerHandlers(manager, socket);
 }
 io.on('connection', onConnection);
 
