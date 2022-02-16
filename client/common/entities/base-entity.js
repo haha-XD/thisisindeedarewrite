@@ -29,7 +29,7 @@ export class Entity {
     }
 
     get chunkLoc() { 
-        return Point(
+        return new Point(
             Math.trunc(this.x/CHUNK_SIZE),
             Math.trunc(this.y/CHUNK_SIZE)
         ); 

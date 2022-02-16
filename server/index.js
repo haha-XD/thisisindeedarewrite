@@ -6,6 +6,7 @@ import { Server } from 'socket.io';
 import { Manager } from './manager.js'
 import Profile from './profile.js';
 import * as h from './handlers/index.js'
+import registerUpdater from './register-updater.js';
 
 app.use(express.static('client'));
 
@@ -20,6 +21,8 @@ const onConnection = (socket) => {
 
     h.registerInputHandlers(manager, socket);
     h.registerManagerHandlers(manager, socket);
+
+    registerUpdater(manager, socket);
 }
 io.on('connection', onConnection);
 

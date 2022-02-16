@@ -38,10 +38,13 @@ export class World {
     }
 
     deleteEntity(id) {
-        for (const entityType in this.entities) {
-            let entities = this.entities[entityType];
+        for (const entities of Object.values(this.entities)) {
             delete entities[id];
         }
+    }
+
+    spawnEntity(entity) {
+        this.entities[entity.category][entity.id] = entity;
     }
 
     loadMap(mapName, entityDict) {
@@ -55,7 +58,7 @@ export class World {
                     entityData.size = TILE_SIZE;
 
                     const entity = new entityTypes[entityDict[char].entityType](entityData);
-                    this.entities[entity.category][entity.id] = entity;
+                    this.spawnEntity(entity);
                 }
             }
         }    
