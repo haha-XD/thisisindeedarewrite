@@ -1,10 +1,16 @@
 export function registerManagerHandlers(manager, socket) {
     const tick = function() {
-        socket.emit(manager.tick);
+        socket.emit(manager.currentTick);
     }
 
-    const pong = function() {
-        socket.emit('pong')
+    const onPing = function() {
+        const p = socket.profile;
+        const pId = p.playerEntity.id;
+        
+        socket.emit('pong', {
+            id: pId,
+            currentTick: manager.currentTick
+        });
     }
 
     const disconnect = function() {
@@ -14,8 +20,8 @@ export function registerManagerHandlers(manager, socket) {
         manager.worlds[wId].deleteEntity(id);
     }
 
-    socket.on('input', tick)
-    socket.on('ping', pong)
+    socket.on('input', tick);
+    socket.on('ping', onPing);
     
-    socket.on('disconnect', disconnect)
+    socket.on('disconnect', disconnect);
 }

@@ -4,11 +4,5 @@ export default class Profile {
     
     constructor(manager, socket) {
         this.playerEntity = manager.worlds[this.currentWorld].spawnPlayer(socket);   
-        
-        this.sendIdentity(socket)
-    }
-
-    sendIdentity(socket) {
-        socket.emit('identity', this.playerEntity.id);
     }
 }
