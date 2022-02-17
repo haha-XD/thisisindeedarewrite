@@ -7,7 +7,7 @@ import DefaultDict from '../client/common/utils/defaultdict.js';
 
 let wId = 0;
 
-export class World {
+export default class World {
     enemyAI = {};
     entities = {
         players : {},

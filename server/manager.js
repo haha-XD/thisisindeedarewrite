@@ -1,5 +1,5 @@
 import { SV_TICK_RATE } from '../client/common/constants.js';
-import { World } from './world.js';
+import World from './world.js';
 
 export class Manager {
     currentTick = 0;

@@ -1,6 +1,7 @@
 import * as h from './handlers/index.js'
 import ClientManager from "./client-manager.js";
 import registerClTicker from "./register-client-ticker.js";
+import waitUntil from './common/utils/waituntil.js';
 
 export default class GameClient {
     constructor(canvas, UIcanvas, socket) {
@@ -10,15 +11,12 @@ export default class GameClient {
         this.UIcanvas = UIcanvas;
         this.UIctx = UIcanvas.getContext('2d');
 
-        const waitUntilConnected = setInterval(() => {
-            if (!socket.connected) return;
-
+        waitUntil(() => this.socket.connected, () => {    
             this.manager = new ClientManager(this.socket);
             
             h.registerClManagerHandlers(this.manager, socket);
             h.registerUpdateHandler(this.manager, socket)
             registerClTicker(this.manager)
-            clearInterval(waitUntilConnected)
-        }, 1000)
+        })
     }
 }
