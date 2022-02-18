@@ -7,12 +7,8 @@ export class Entity {
     constructor(x, y, size) {
         this.x = x;
         this.y = y;
-        this.oX = x;
-        this.oY = y;
         this.size = size;
-        
-    	this.positionBuffer = [];
-        
+        //this.objType = subclass.classname        
         this.id = id;
         id++;
     }
@@ -34,7 +30,7 @@ export class Entity {
             Math.trunc(this.y/CHUNK_SIZE)
         ); 
     } 
-    get state() { return { ...this }; } //strips away functions for sending over network 
+    get state() { return {...this}; } //strips away functions for sending over network 
 
     get top() { return this.y - this.size; }
     get bottom() { return this.y + this.size; }

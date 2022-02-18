@@ -1,17 +1,18 @@
 import { SV_TICK_RATE } from "./common/constants.js";
+import * as entityTypes from "./common/entities/index.js";
 
 export default class ClientManager {
     startTime = Date.now();
     extraTicks = 0;
     startTicks = 0;
-    currentTick = 0;
-    playerId;
+    currentTick = 0;e
     entities = {
         players : {},
         enemies : {},
         walls : {},
         projectiles : {}
     };
+    playerId;
     svMsgQueue = [];
 
     constructor(socket) {
@@ -24,24 +25,5 @@ export default class ClientManager {
         const nowTicks = Math.floor((Date.now()-this.startTime)/SV_TICK_RATE)
         this.currentTick = this.startTicks + nowTicks + this.extraTicks;
         console.log(this.currentTick)
-
-        this.processServerMessages();
-    }
-
-    processServerMessages() {
-        while (true) {
-            const msg = this.svMsgQueue.shift()
-            if (!msg) break;
-
-            this.updateState(msg.state);
-        }
-    }
-
-    updateState(state) {
-        for (const entity of Object.values(state)) {
-            if (!this.entities[entity.category][entity.id]) {
-                console.log(entity)                   
-            }
-        } 
     }
 }

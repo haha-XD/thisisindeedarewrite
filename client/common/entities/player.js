@@ -4,6 +4,7 @@ import Vector2 from '../utils/vector2.js';
 
 export class Player extends Entity {
     category = ENTITY_CATEGORY.players;
+    objType = this.constructor.name;
     
     constructor({x, y, size, speed, socketId}) {
         super(x, y, size);
