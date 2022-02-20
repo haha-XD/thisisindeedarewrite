@@ -4,6 +4,8 @@ import Point from "../utils/point.js";
 let id = 0;
 
 export class Entity {
+    rotate = false;
+
     constructor(x, y, size) {
         this.x = x;
         this.y = y;
@@ -13,7 +15,7 @@ export class Entity {
         id++;
     }
 
-    detectEnemyCollision(entity) {
+    detectEntityCollision(entity) {
         if (!(this.right < entity.left ||
               this.left > entity.right ||
               this.bottom < entity.top ||
@@ -30,11 +32,12 @@ export class Entity {
             Math.trunc(this.y/CHUNK_SIZE)
         ); 
     } 
+    get loc() { return new Point(this.x, this.y) }
     get state() { return {...this}; } //strips away functions for sending over network 
 
-    get top() { return this.y - this.size; }
-    get bottom() { return this.y + this.size; }
-    get left() { return this.x - this.size; }
-    get right() { return this.x + this.size; }
+    get top() { return this.y - this.size/2; }
+    get bottom() { return this.y + this.size/2; }
+    get left() { return this.x - this.size/2; }
+    get right() { return this.x + this.size/2; }
 }
 

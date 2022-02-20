@@ -32,7 +32,7 @@ export default class World {
             x: this.worldSpawn.x,
             y: this.worldSpawn.y,
             size: 32,
-            speed: 5,
+            speed: 500,
             socketId: socket.id
         })
         this.entities.players[player.id] = player;

@@ -8,7 +8,7 @@ export function registerManagerHandlers(manager, socket) {
         const pId = p.playerEntity.id;
         
         socket.emit('pong', {
-            id: pId,
+            pId: pId,
             currentTick: manager.currentTick
         });
     }

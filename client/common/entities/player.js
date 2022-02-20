@@ -13,21 +13,20 @@ export class Player extends Entity {
     }
 
     applyInput(rot, inputs, wallEntities) {
-        movementVec = Vector2.ZERO;
-        if (inputs[87] && inputs[87] <= 0.3) { //w 
-            movementVec.add(Vector2.advance(-rot+90, -inputs[87]))
+        let movementVec = Vector2.ZERO();
+        if (inputs['KeyW'] && inputs['KeyW'] <= 0.3) { //w 
+            movementVec.add(Vector2.advance(-rot+90, -inputs['KeyW']))
         }
-        if (inputs[83] && inputs[83] <= 0.3) { //s
-            movementVec.add(Vector2.advance(-rot+90, inputs[87]))
+        if (inputs['KeyS'] && inputs['KeyS'] <= 0.3) { //s
+            movementVec.add(Vector2.advance(-rot+90, inputs['KeyS']))
         }
-        if (inputs[68] && inputs[68] <= 0.3) { //d
-            movementVec.add(Vector2.advance(-rot, inputs[87]))
+        if (inputs['KeyD'] && inputs['KeyD'] <= 0.3) { //d
+            movementVec.add(Vector2.advance(-rot, inputs['KeyD']))
         }
-        if (inputs[65] && inputs[65] <= 0.3) { //a
-            movementVec.add(Vector2.advance(-rot, -inputs[87]))
+        if (inputs['KeyA'] && inputs['KeyA'] <= 0.3) { //a
+            movementVec.add(Vector2.advance(-rot, -inputs['KeyA']))
         }
-        movementVec.normalize(this.speed);
-        
+        movementVec.normalize(this.speed).divide(100);
         this.y += movementVec.y;
         for (let wallEntity of wallEntities) {
             if (this.detectEntityCollision(wallEntity)) {
@@ -46,7 +45,7 @@ export class Player extends Entity {
                     this.x = this.left - this.size/2 - 1
                 }
                 if (movementVec.x < 0) {
-                    this.x = this.left + this.size/2 + 1
+                    this.x = this.right + this.size/2 + 1
                 }
             }    
         }

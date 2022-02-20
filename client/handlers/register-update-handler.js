@@ -1,6 +1,6 @@
-export function registerUpdateHandler(manager, socket) {
+export function registerUpdateHandler(networking, socket) {
     const onUpdate = function(data) {
-        manager.svMsgQueue.push(data)
+        networking.svMsgQueue.push(data)
     }
 
     socket.on('update', onUpdate)

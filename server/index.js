@@ -32,5 +32,4 @@ registerTicker(manager);
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
 	console.log(`[SERVER] now listening to port ${port}`);
-    
 });

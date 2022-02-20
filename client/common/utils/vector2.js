@@ -11,6 +11,7 @@ export default class Vector2 {
     }
 
     normalize(value) {
+        if (this.magnitude == 0) return Vector2.ZERO();
         this.divide(this.magnitude);
         this.multiply(value);
         return this;
