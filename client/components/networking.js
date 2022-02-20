@@ -1,5 +1,5 @@
-import { SV_UPDATE_RATE } from "./common/constants.js";
-import * as entityTypes from "./common/entities/index.js";
+import { SV_UPDATE_RATE } from "../common/constants.js";
+import * as entityTypes from "../common/entities/index.js";
 
 export default class Networking {
     inputAckNum = 0;

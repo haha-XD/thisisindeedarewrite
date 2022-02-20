@@ -1,4 +1,4 @@
-import { SV_TICK_RATE } from "./common/constants.js";
+import { SV_TICK_RATE } from "../common/constants.js";
 
 export default class ClientManager {
     startTime = Date.now();
