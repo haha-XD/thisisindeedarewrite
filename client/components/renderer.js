@@ -1,5 +1,5 @@
-import Point from "./common/utils/point.js";
-import radians from "./common/utils/radians.js";
+import Point from "../common/utils/point.js";
+import radians from "../common/utils/radians.js";
 
 export default class Renderer { 
     constructor(canvas, UIcanvas) {

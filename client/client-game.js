@@ -1,10 +1,10 @@
 import * as h from './handlers/index.js'
-import ClientManager from "./client-manager.js";
+import ClientManager from "./components/manager.js";
 import waitUntil from './common/utils/waituntil.js';
 import { CL_TICK_RATE } from './common/constants.js';
-import Controller from './client-controller.js';
-import Networking from './client-networking.js';
-import Renderer from './client-renderer.js';
+import Controller from './components/controller.js';
+import Networking from './components/networking.js';
+import Renderer from './components/renderer.js';
 
 export default class GameClient {
     constructor(canvas, UIcanvas, socket) {
