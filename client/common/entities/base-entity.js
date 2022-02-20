@@ -16,10 +16,10 @@ export class Entity {
     }
 
     detectEntityCollision(entity) {
-        if (!(this.right < entity.left ||
-              this.left > entity.right ||
-              this.bottom < entity.top ||
-              this.top > entity.bottom)) {
+        if (!(this.right <= entity.left ||
+              this.left >= entity.right ||
+              this.bottom <= entity.top ||
+              this.top >= entity.bottom)) {
             return true;
         } else {
             return false;
@@ -39,5 +39,10 @@ export class Entity {
     get bottom() { return this.y + this.size/2; }
     get left() { return this.x - this.size/2; }
     get right() { return this.x + this.size/2; }
+    
+    set top(y) { this.y = y + this.size/2 }
+    set bottom(y) { this.y = y - this.size/2 }
+    set left(x) { this.x = x + this.size/2 }
+    set right(x) { this.x = x - this.size/2; }
 }
 

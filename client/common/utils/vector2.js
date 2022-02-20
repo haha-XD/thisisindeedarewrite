@@ -51,6 +51,16 @@ export default class Vector2 {
         return this;
     }
 
+    fix() {
+        if (Math.abs(this.x) < 0.0001) {
+            this.x = 0;
+        }
+        if (Math.abs(this.y) < 0.0001) {
+            this.y = 0;
+        }
+        return this;
+    }
+
     static advance(angle, amount) {
         const vecX = Math.cos(radians(angle)) * amount;
         const vecY = Math.sin(radians(angle)) * amount;

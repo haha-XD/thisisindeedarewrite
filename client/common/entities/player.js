@@ -26,26 +26,26 @@ export class Player extends Entity {
         if (inputs['KeyA'] && inputs['KeyA'] <= 0.3) { //a
             movementVec.add(Vector2.advance(-rot, -inputs['KeyA']))
         }
-        movementVec.normalize(this.speed).divide(100);
-        this.y += movementVec.y;
-        for (let wallEntity of wallEntities) {
+        movementVec.normalize(this.speed).divide(100).fix();
+        this.x += movementVec.x;
+        for (const wallEntity of wallEntities) {
             if (this.detectEntityCollision(wallEntity)) {
-                if (movementVec.y > 0) {
-                    this.y = this.top - this.size/2 - 1
+                if (movementVec.x > 0) {
+                    this.right = wallEntity.left
                 }
-                if (movementVec.y < 0) {
-                    this.y = this.bottom + this.size/2 + 1
+                if (movementVec.x < 0) {
+                    this.left = wallEntity.right
                 }
             }    
         }
-        this.x += movementVec.x;
-        for (let wallEntity of wallEntities) {
+        this.y += movementVec.y;
+        for (const wallEntity of wallEntities) {
             if (this.detectEntityCollision(wallEntity)) {
-                if (movementVec.x > 0) {
-                    this.x = this.left - this.size/2 - 1
+                if (movementVec.y > 0) {
+                    this.bottom = wallEntity.top
                 }
-                if (movementVec.x < 0) {
-                    this.x = this.right + this.size/2 + 1
+                if (movementVec.y < 0) {
+                    this.top = wallEntity.bottom
                 }
             }    
         }
