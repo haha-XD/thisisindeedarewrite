@@ -4,6 +4,7 @@ import Point from "../utils/point.js";
 let id = 0;
 
 export class Entity {
+    creationTs = Date.now();
     rotate = false;
 
     constructor(x, y, size) {

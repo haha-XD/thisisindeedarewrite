@@ -6,5 +6,6 @@ export const CHUNK_SIZE = 380;
 export const ENTITY_CATEGORY = {
     walls : 'walls',
     players : 'players',
-    enemies : 'enemies'
+    enemies : 'enemies',
+    projectiles : 'projectiles'
 }

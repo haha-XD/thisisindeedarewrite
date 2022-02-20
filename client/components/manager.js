@@ -11,7 +11,7 @@ export default class ClientManager {
         players : {},
         enemies : {},
         walls : {},
-        projectiles : {}
+        projectiles : {} //projectile id is never useful
     };
     playerId;
 
@@ -27,6 +27,10 @@ export default class ClientManager {
         const nowTs = Date.now();
         this.dt = (nowTs - this.lastTs)/1000;
         this.lastTs = nowTs;
+
+        for (const projectile of Object.values(this.entities.projectiles)) {
+            if(!projectile.tick()) delete this.entities.projectiles[projectile.id]
+        }
     }
 
     get player() {
