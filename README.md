@@ -1,22 +1,27 @@
-# EXAMPLE BULLET DESCRIPTION
-{
-    "speed" : 3, 
-    "size" : 16,
-    "lifetime" : 5,
-    "damage" : 5,
-    "direction" : 0,
-    "angularVel" : 0,
-    "accel" : 0
-}
-# EXAMPLE NPC DESCRIPTION
+# EXAMPLE ENEMY DESCRIPTION
+```
 {
     "states" : {
-        "spiralPtn" : {
-            "behaviour" : ["shoot shotgun 1", "stateChangeTime 3 wait"]
+        "chaseShoot" : {
+            "behaviour" : ["shoot radialShotgun 1", "stateChangeTime 3 wait"]
         },
         "wait" : {
-            "behaviour" : ["stateChangeTime 12 spiralPtn"]
+            "behaviour" : ["stateChangeTime 12 chaseShoot"]
         }
     },
-    "defaultState" : "spiralPtn"
+    "defaultState" : "spiralPtn",
+    "projectiles" : {
+        "radialShotgun" : {
+            "type" : "Radial",
+            "shotCount" : 10,
+            "direction" : 0,
+            "projDesc": {
+                "speed" : 3, 
+                "size" : 16,
+                "lifetime" : 5,
+                "damage" : 5
+            }
+        }
+    }
 }
+```
