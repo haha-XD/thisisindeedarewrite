@@ -1,31 +1,24 @@
 {
     "states" : {
-        "spiralPtn" : {
-            "behaviour" : ["shoot radial 1", "stateChangeTime 3 wait"]
+        "chaseShoot" : {
+            "behaviour" : ["shoot radialShotgun 1", "stateChangeTime 3 wait"]
         },
         "wait" : {
-            "behaviour" : ["stateChangeTime 12 spiralPtn"]
+            "behaviour" : ["stateChangeTime 12 chaseShoot"]
         }
     },
     "defaultState" : "spiralPtn",
     "projectiles" : {
-        "radial" : {
-            "type" : "radialShotgun",
-            "speed" : 3, 
-            "size" : 16,
-            "lifetime" : 5,
-            "damage" : 5,
-            "shotCount" : 1,
-            "direction" : 0
-        },
-        "coneShotgun" : {
-            "type" : "coneShotgun",
-            "speed" : 5,
-            "size" : 16,
-            "lifetime" : 5,
-            "damage" : 5,
-            "shotCount" : 6,
-            "coneAngle" : 60
+        "radialShotgun" : {
+            "type" : "Radial",
+            "shotCount" : 10,
+            "direction" : 0,
+            "projDesc": {
+                "speed" : 3, 
+                "size" : 16,
+                "lifetime" : 5,
+                "damage" : 5
+            }
         }
     }
 }

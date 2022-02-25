@@ -57,7 +57,6 @@ export default class Networking {
 
     static interpolateEntities(manager) {
         const renderTs = Date.now() - SV_UPDATE_RATE;
-        console.log('lolol')
         for (const entityType of Object.values(manager.entities)) {
             for (let entity of Object.values(entityType)) {
                 if (entity.id == manager.playerId) continue;

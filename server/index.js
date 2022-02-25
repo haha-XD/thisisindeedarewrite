@@ -3,8 +3,8 @@ const app = express();
 import http from 'http'
 import { Server } from 'socket.io';
 
-import { Manager } from './manager.js'
-import Profile from './profile.js';
+import { Manager } from './components/manager.js'
+import Profile from './components/profile.js';
 import * as h from './handlers/index.js'
 import registerUpdater from './register-updater.js';
 import registerTicker from './register-ticker.js';

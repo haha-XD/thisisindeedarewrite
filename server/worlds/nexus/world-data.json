@@ -2,6 +2,11 @@
     "entityDict" : {
         "#" : {
             "entityType" : "Wall"
+        },
+        "/" : {
+            "entityType" : "Enemy",
+            "ai" : "chaser",
+            "size" : 100
         }
     },
     "spawn" : [100, 100]
