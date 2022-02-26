@@ -31,7 +31,6 @@ export class Projectile extends Entity {
     getPosition(elapsedTime) {
         const x = this.startX + elapsedTime * this.speed * Math.cos(radians(this.direction))/100;
         const y = this.startY + elapsedTime * this.speed * Math.sin(radians(this.direction))/100;
-        console.log(this.direction)
         return new Point(x, y);
     }
 } 

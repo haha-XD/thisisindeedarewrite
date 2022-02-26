@@ -20,6 +20,7 @@ export default class ClientManager {
     }
 
     tick() {
+        console.log(Object.values(this.projectiles).length)
         const nowTicks = Math.floor((Date.now()-this.startTime)/SV_TICK_RATE)
         const currentTick = this.startTicks + nowTicks + this.extraTicks;
         this.currentTick = currentTick;
