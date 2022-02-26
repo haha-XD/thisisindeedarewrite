@@ -1,16 +1,17 @@
 # ENEMY SCRIPTING
-```stateChangeTime <timerName> <waitTime> <newState>```
+# stateChangeTime <timerName> <waitTime> <newState>```
 
 `timerName`: should be unique, this identifies the timer used
 `waitTime`: time waited till state change
 `newState`: the state to change to
 
-```shoot <projectileName> <interval>```
+
+# shoot <projectileName> <interval>
 
 `projectileName`: the name of the projectile in the 'projectiles' field of the ai description
 `interval`: the interval between shots
 
-```chase```
+# ```chase```
 
 no fields, chases closest player.
 
