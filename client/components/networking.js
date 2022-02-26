@@ -25,7 +25,7 @@ export default class Networking {
         this.pendingInputStates = this.pendingInputStates.filter(input => input.num > this.lastAckNum);
         if (this.pendingInputStates) {
             for (const input of this.pendingInputStates) {
-                manager.player.applyInput(input.rot, input.inputs, Object.values(manager.entities.walls));            
+                manager.player.applyInput(input.rot, input.inputs, Object.values(manager.walls));            
             }
         }
     }
@@ -38,7 +38,7 @@ export default class Networking {
                 newEntity.positionBuffer = [];
                 manager.entities[entity.category][entity.id] = newEntity;
             }
-            if (entity.id == manager.playerId) {
+            if (entity.doNotUpdate) {
                 Object.assign(manager.player, entity);
             }
             else {
@@ -59,7 +59,7 @@ export default class Networking {
         const renderTs = Date.now() - SV_UPDATE_RATE;
         for (const entityType of Object.values(manager.entities)) {
             for (let entity of Object.values(entityType)) {
-                if (entity.id == manager.playerId) continue;
+                if (entity.doNotUpdate) continue;
                 const b = entity.positionBuffer;
                 while (b.length >= 2 && b[1].ts <= renderTs) {
                     b.shift();

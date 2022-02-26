@@ -18,6 +18,7 @@ export default class GameClient {
             this.manager = new ClientManager(socket);
             this.renderer = new Renderer(this.canvas, this.UIcanvas);
 
+            h.registerBulletPatternHandler(this.manager, socket);
             h.registerClManagerHandlers(this.manager, socket);
             h.registerUpdateHandler(this.networking, socket);
             setInterval(

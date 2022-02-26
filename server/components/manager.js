@@ -4,6 +4,7 @@ import World from './world.js';
 export class Manager {
     currentTick = 0;
     startTime = Date.now();
+    lastTs = Date.now();
     worlds = {};
 
     constructor(io) {
@@ -11,12 +12,16 @@ export class Manager {
     }
 
     tick() {
+        const nowTs = Date.now();
+        this.dt = (nowTs - this.lastTs)/1000;
+        this.lastTs = nowTs;
+        
         this.currentTick = Math.floor((Date.now()-this.startTime)/SV_TICK_RATE)
-        for (const world of Object.values(this.worlds)) {
-            for (const enemy of Object.values(world.entities.enemies)) {
-                enemy.tick(this);
+        for (const w in this.worlds) {
+            for (const e of Object.values(this.worlds[w].enemies)) {
+                e.tick(this, w);
             }
-            world.updateChunks()
+            this.worlds[w].updateChunks()
         }
     }
 

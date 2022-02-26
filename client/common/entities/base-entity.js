@@ -6,6 +6,7 @@ let id = 0;
 export class Entity {
     creationTs = Date.now();
     rotate = false;
+    doNotUpdate = false;
 
     constructor(x, y, size) {
         this.x = x;
@@ -17,6 +18,7 @@ export class Entity {
     }
 
     detectEntityCollision(entity) {
+        if (!entity) return false;
         if (!(this.right <= entity.left ||
               this.left >= entity.right ||
               this.bottom <= entity.top ||
@@ -41,9 +43,9 @@ export class Entity {
     get left() { return this.x - this.size/2; }
     get right() { return this.x + this.size/2; }
     
-    set top(y) { this.y = y + this.size/2 }
-    set bottom(y) { this.y = y - this.size/2 }
-    set left(x) { this.x = x + this.size/2 }
+    set top(y) { this.y = y + this.size/2; }
+    set bottom(y) { this.y = y - this.size/2; }
+    set left(x) { this.x = x + this.size/2; }
     set right(x) { this.x = x - this.size/2; }
 }
 

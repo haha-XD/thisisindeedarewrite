@@ -28,12 +28,20 @@ export default class ClientManager {
         this.dt = (nowTs - this.lastTs)/1000;
         this.lastTs = nowTs;
 
-        for (const projectile of Object.values(this.entities.projectiles)) {
-            if(!projectile.tick()) delete this.entities.projectiles[projectile.id]
+        for (const projectile of Object.values(this.projectiles)) {
+            const elapsedTime = Date.now() - projectile.creationTs
+            if(!projectile.tick(this, elapsedTime)) delete this.projectiles[projectile.id]
+            const position = projectile.getPosition(elapsedTime);
+            projectile.x = position.x;
+            projectile.y = position.y;
         }
     }
 
+    get players() { return this.entities.players }
+    get projectiles() { return this.entities.projectiles }
+    get walls() { return this.entities.walls }
+    get enemies() { return this.entities.enemies }
     get player() {
-        return this.entities.players[this.playerId];
+        return this.players[this.playerId];
     }
 }

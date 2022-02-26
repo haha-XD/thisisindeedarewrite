@@ -32,7 +32,7 @@ export default class Controller {
                 manager.player.applyInput(
                     this.rotation, 
                     tInputs,
-                    Object.values(manager.entities.walls)
+                    Object.values(manager.walls)
                 )
                 networking.pendingInputStates.push(packagedInput);
                 this.#cmdNum++;

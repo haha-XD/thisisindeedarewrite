@@ -12,16 +12,15 @@ export default class World {
     entities = {
         players : {},
         enemies : {},
-        walls : {},
-        projectiles : {}
+        walls : {}
     };
     chunks;
 
     constructor(worldName) {
         const worldData = JSON.parse(fs.readFileSync(`./server/worlds/${worldName}/world-data.json`, 'utf8'));
         
-        this.loadMap(worldName, worldData['entityDict']);
         this.loadEnemyAI(worldName);
+        this.loadMap(worldName, worldData['entityDict']);
         this.worldSpawn = new Point(worldData['spawn'][0], worldData['spawn'][1]);
 
         this.id = wId;
@@ -36,7 +35,7 @@ export default class World {
             speed: 500,
             socketId: socket.id
         })
-        this.entities.players[player.id] = player;
+        this.players[player.id] = player;
         return player;
     }
 
@@ -82,6 +81,7 @@ export default class World {
                     entityData.x = TILE_SIZE/2 + (TILE_SIZE * x);
                     entityData.y = TILE_SIZE/2 + (TILE_SIZE * y);
                     entityData.size = entityData.size || TILE_SIZE;
+                    if (entityData.ai) entityData.ai = this.enemyAI[entityData.ai];
 
                     const entity = new entityTypes[entityDict[char].entityType](entityData);
                     this.spawnEntity(entity);
@@ -93,8 +93,13 @@ export default class World {
     loadEnemyAI(mapName) {
         const fileNames = fs.readdirSync(`./server/worlds/${mapName}/enemyAI`, 'utf8')
         for (let fileName of fileNames) {    
-            const data = JSON.parse(fs.readFileSync(`./server/worlds/${mapName}/enemyAI/${fileName}`, 'utf8'))
+            const data = JSON.parse(fs.readFileSync(`./server/worlds/${mapName}/enemyAI/${fileName}`, 'utf8'));
             this.enemyAI[fileName.split('.')[0]] = data;
         }
     }
+
+    get players() { return this.entities.players }
+    get projectiles() { return this.entities.projectiles }
+    get walls() { return this.entities.walls }
+    get enemies() { return this.entities.enemies }
 }

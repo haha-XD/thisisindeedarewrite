@@ -6,7 +6,8 @@
         "/" : {
             "entityType" : "Enemy",
             "ai" : "chaser",
-            "size" : 100
+            "size" : 1,
+            "speed" : 400
         }
     },
     "spawn" : [100, 100]

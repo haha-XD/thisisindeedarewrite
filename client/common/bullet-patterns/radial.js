@@ -1,4 +1,4 @@
-import { BulletPattern } from "./base-pattern";
+import { BulletPattern } from "./base-pattern.js";
 import { Projectile } from "../entities/index.js";
 
 export class Radial extends BulletPattern { 
@@ -11,10 +11,12 @@ export class Radial extends BulletPattern {
     }
 
     createProjs(manager) {
+        this.projDesc.x = this.x;
+        this.projDesc.y = this.y;
         for(let i = 0; i < this.shotCount; i++) {
             let bullet = new Projectile(this.projDesc)
             bullet.direction = this.direction + i * (360 / this.shotCount)
-            manager.entities.projectiles.push(bullet);
+            manager.projectiles[bullet.id] = bullet;
         }
     }
 }

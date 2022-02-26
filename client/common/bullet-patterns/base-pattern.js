@@ -8,5 +8,7 @@ export class BulletPattern {
     createProjs() {
         console.error('bullet pattern missing createprojs function')
     }
+
+    get state() { return {...this} }
 }
 
