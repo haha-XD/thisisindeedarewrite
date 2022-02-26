@@ -14,7 +14,7 @@ export class Manager {
         this.currentTick = Math.floor((Date.now()-this.startTime)/SV_TICK_RATE)
         for (const world of Object.values(this.worlds)) {
             for (const enemy of Object.values(world.entities.enemies)) {
-                enemy.tick()
+                enemy.tick(this);
             }
             world.updateChunks()
         }

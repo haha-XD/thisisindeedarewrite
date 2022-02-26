@@ -21,6 +21,7 @@ export default class World {
         const worldData = JSON.parse(fs.readFileSync(`./server/worlds/${worldName}/world-data.json`, 'utf8'));
         
         this.loadMap(worldName, worldData['entityDict']);
+        this.loadEnemyAI(worldName);
         this.worldSpawn = new Point(worldData['spawn'][0], worldData['spawn'][1]);
 
         this.id = wId;
@@ -72,7 +73,6 @@ export default class World {
         return nearChunks
     }
 
-
     loadMap(mapName, entityDict) {
         const data = fs.readFileSync(`./server/worlds/${mapName}/map-data.txt`, 'utf8')
         for (const [y, line] of data.split(/\r?\n/).entries()) {
@@ -88,5 +88,13 @@ export default class World {
                 }
             }
         }    
+    }
+    
+    loadEnemyAI(mapName) {
+        const fileNames = fs.readdirSync(`./server/worlds/${mapName}/enemyAI`, 'utf8')
+        for (let fileName of fileNames) {    
+            const data = JSON.parse(fs.readFileSync(`./server/worlds/${mapName}/enemyAI/${fileName}`, 'utf8'))
+            this.enemyAI[fileName.split('.')[0]] = data;
+        }
     }
 }

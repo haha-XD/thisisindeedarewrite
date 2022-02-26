@@ -4,6 +4,7 @@ import { ENTITY_CATEGORY } from '../constants.js'
 export class Enemy extends Entity {
     category = ENTITY_CATEGORY.enemies;
     objType = this.constructor.name;
+    timers = {};
     
     constructor({x, y, size, ai}) { 
         super(x, y, size)
