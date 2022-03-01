@@ -16,7 +16,7 @@
             "projDesc": {
                 "speed" : 20, 
                 "size" : 16,
-                "lifetime" : 7000,
+                "lifetime" : 3000,
                 "damage" : 5
             }
         }
