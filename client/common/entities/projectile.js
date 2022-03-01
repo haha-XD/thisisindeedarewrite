@@ -9,7 +9,7 @@ export class Projectile extends Entity {
     doNotUpdate = true;
 
     constructor({x, y, speed, size, lifetime, damage, direction}) {
-        super(x, y, size, -1) //id is -1
+        super(x, y, size, -1) //id is ALWAYS -1 because syncing is hard
         this.startX = x;
         this.startY = y; //used in determining where bullet is
         this.size = size;

@@ -37,10 +37,10 @@ export default class Networking {
                 newEntity.positionBuffer = [];
                 manager.entities[entity.category][entity.id] = newEntity;
             }
-            if (entity.doNotUpdate) {
+            if (entity.id == manager.playerId) {
                 Object.assign(manager.player, entity);
-            }
-            else {
+            } 
+            else if (!entity.doNotUpdate) {
                 let localEntity = manager.entities[entity.category][entity.id];
                 localEntity.positionBuffer.push({
                     ts: Date.now(),

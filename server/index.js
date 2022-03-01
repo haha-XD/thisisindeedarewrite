@@ -22,6 +22,7 @@ const onConnection = (socket) => {
 
     h.registerInputHandlers(manager, socket);
     h.registerManagerHandlers(manager, socket);
+    h.registerBulletAckHandler(manager, socket);
 
     registerUpdater(manager, socket);
 }

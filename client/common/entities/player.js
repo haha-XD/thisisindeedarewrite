@@ -5,11 +5,12 @@ import Vector2 from '../utils/vector2.js';
 export class Player extends Entity {
     category = ENTITY_CATEGORY.players;
     objType = this.constructor.name;
-    doNotUpdate = true;
     
-    constructor({x, y, size, speed, socketId, id=null}) {
+    constructor({x, y, size, speed, socketId, hp, id=null}) {
         super(x, y, size, id);
         this.speed = speed;
+        this.hp = hp;
+        this.maxhp = hp;
         this.socketId = socketId;
     }
 

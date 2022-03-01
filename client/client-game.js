@@ -30,9 +30,16 @@ export default class GameClient {
 
     tick() {
         this.manager.tick();
+        this.checkSendTime(this.manager);
         this.networking.processServerMessages(this.manager);
         this.controller.processInputs(this.manager, this.networking);
         Networking.interpolateEntities(this.manager);
         this.renderer.draw(this.manager, this.controller.rotation);
+    }
+
+    checkSendTime(manager) {
+        if (!(manager.currentTick % 2)) {
+            this.socket.emit('time', Date.now());
+        }
     }
 }

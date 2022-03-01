@@ -1,7 +1,7 @@
 import { CHUNK_SIZE } from "../constants.js";
 import Point from "../utils/point.js";
 
-export let id = 1;
+let id = 1;
 
 export class Entity {
     creationTs = Date.now();

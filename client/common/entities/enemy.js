@@ -75,7 +75,7 @@ export class Enemy extends Entity {
         }
     }
 
-    shoot(args, manager, closet, world) {
+    shoot(args, manager, closest, world) {
         const patternName = args[1];
         const interval = args[2];
 
@@ -83,8 +83,11 @@ export class Enemy extends Entity {
         let p = this.ai.projectiles[patternName];
         p.x = this.x;
         p.y = this.y;
-        const bulletPattern = new bulletPatterns[p.type](p);
-        manager.io.emit('bulletPattern', bulletPattern.state);
+        const bp = new bulletPatterns[p.type](p);
+        for (const socket of world.sockets(manager.io)) {
+            socket.emit('bulletPattern', bp.state);
+            socket.profile.bulletPatterns[bp.id] = bp;
+        }
     }
     
     get state() { 

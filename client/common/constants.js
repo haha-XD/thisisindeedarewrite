@@ -9,4 +9,4 @@ export const ENTITY_CATEGORY = {
     enemies : 'enemies',
     projectiles : 'projectiles'
 }
-export const DEBUG_MODE = false;
+export const DEBUG_MODE = true;

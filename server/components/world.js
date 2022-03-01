@@ -33,6 +33,7 @@ export default class World {
             y: this.worldSpawn.y,
             size: 32,
             speed: 500,
+            hp: 1000,
             socketId: socket.id
         })
         this.players[player.id] = player;
@@ -98,6 +99,11 @@ export default class World {
         }
     }
 
+    sockets(io) {
+        return Object.values(this.players).map(player => 
+            io.sockets.sockets.get(player.socketId)
+        ); 
+    }
     get players() { return this.entities.players }
     get projectiles() { return this.entities.projectiles }
     get walls() { return this.entities.walls }

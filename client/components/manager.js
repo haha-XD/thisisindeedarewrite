@@ -22,7 +22,6 @@ export default class ClientManager {
     }
 
     tick() {
-        console.log(this.projectiles.length)
         const nowTicks = Math.floor((Date.now()-this.startTime)/SV_TICK_RATE)
         const currentTick = this.startTicks + nowTicks + this.extraTicks;
         this.currentTick = currentTick;
@@ -40,7 +39,6 @@ export default class ClientManager {
             projectile.y = position.y;
         }
         this.entities.projectiles = this.projectiles.filter(element => !rmvArray.includes(element));
-        console.log(this.projectiles)
     }
 
     get players() { return this.entities.players }

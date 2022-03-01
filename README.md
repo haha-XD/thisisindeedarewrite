@@ -45,3 +45,7 @@ no fields, chases closest player.
     }
 }
 ```
+
+TODO:
+fix enemy shooting applying to all worlds
+add bulletpattern attr to worlds so can store for acking by clients
