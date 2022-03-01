@@ -33,8 +33,7 @@ export default class Networking {
     static updateState(manager, state) {
         for (let entity of Object.values(state)) {
             if (!manager.entities[entity.category][entity.id]) {
-                let newEntity = new entityTypes[entity.objType](entity);                   
-                newEntity.id = entity.id;
+                let newEntity = new entityTypes[entity.objType](entity);   
                 newEntity.positionBuffer = [];
                 manager.entities[entity.category][entity.id] = newEntity;
             }

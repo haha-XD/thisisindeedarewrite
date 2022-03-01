@@ -1,3 +1,4 @@
+import { DEBUG_MODE } from "../common/constants.js";
 import Point from "../common/utils/point.js";
 import radians from "../common/utils/radians.js";
 
@@ -28,6 +29,16 @@ export default class Renderer {
 
                 if (!entity.rotate) this.blit(entity.size, p.x, p.y);
                 else this.blitRotated(entity.size, p.x, p.y, rotation)
+
+                if (entity.id && DEBUG_MODE) {
+                    this.ctx.fillStyle = "black";
+                    this.ctx.font = "20px Verdana";
+                    this.ctx.fillText(
+                        entity.id, 
+                        p.x-entity.size/2, 
+                        p.y+entity.size/2+5
+                    );    
+                }            
             }
         } 
     }

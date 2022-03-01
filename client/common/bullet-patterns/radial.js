@@ -5,8 +5,7 @@ export class Radial extends BulletPattern {
     objType = this.constructor.name;
 
     constructor({x, y, projDesc, shotCount, direction}) {
-        super(x, y, projDesc);
-        this.shotCount = shotCount;
+        super(x, y, shotCount, projDesc);
         this.direction = direction;
     }
 
@@ -16,7 +15,7 @@ export class Radial extends BulletPattern {
         for(let i = 0; i < this.shotCount; i++) {
             let bullet = new Projectile(this.projDesc)
             bullet.direction = this.direction + i * (360 / this.shotCount)
-            manager.projectiles[bullet.id] = bullet;
+            manager.projectiles.push(bullet);
         }
     }
 }

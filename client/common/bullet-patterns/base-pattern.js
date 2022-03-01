@@ -1,7 +1,8 @@
 export class BulletPattern {
-    constructor(x, y, projDesc) {
+    constructor(x, y, shotCount, projDesc) {
         this.x = x;
         this.y = y;
+        this.shotCount = shotCount;
         this.projDesc = projDesc;
     }
 

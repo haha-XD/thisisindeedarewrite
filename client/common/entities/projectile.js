@@ -9,7 +9,7 @@ export class Projectile extends Entity {
     doNotUpdate = true;
 
     constructor({x, y, speed, size, lifetime, damage, direction}) {
-        super(x, y, size)
+        super(x, y, size, -1) //id is -1
         this.startX = x;
         this.startY = y; //used in determining where bullet is
         this.size = size;
@@ -21,7 +21,6 @@ export class Projectile extends Entity {
 
     tick(manager, elapsedTime) {
         if (elapsedTime > this.lifetime) return false;
-        if (this.detectEntityCollision(manager.player)) return false;
         for (const wallEntity of Object.values(manager.walls)) {
             if (this.detectEntityCollision(wallEntity)) return false;
         }

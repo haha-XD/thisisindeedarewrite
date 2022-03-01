@@ -1,20 +1,25 @@
 import { CHUNK_SIZE } from "../constants.js";
 import Point from "../utils/point.js";
 
-let id = 0;
+export let id = 1;
 
 export class Entity {
     creationTs = Date.now();
     rotate = false;
     doNotUpdate = false;
 
-    constructor(x, y, size) {
+    constructor(x, y, size, identifier) {
         this.x = x;
         this.y = y;
         this.size = size;
-        //this.objType = subclass.classname        
-        this.id = id;
-        id++;
+        //this.objType = subclass.classname
+
+        if (identifier) {
+            this.id = identifier;    
+        } else {
+            this.id = id;
+            id++;
+        }
     }
 
     detectEntityCollision(entity) {

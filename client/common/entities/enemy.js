@@ -8,8 +8,8 @@ export class Enemy extends Entity {
     objType = this.constructor.name;
     timers = {shootTimer: {timer: 0}};
 
-    constructor({x, y, size, speed, ai}) { 
-        super(x, y, size)
+    constructor({x, y, size, speed, ai, id=null}) { 
+        super(x, y, size, id);
         this.speed = speed;
         this.ai = ai;
         this.aiState = ai.defaultState;
@@ -46,7 +46,6 @@ export class Enemy extends Entity {
         
         for (const timer in this.timers) this.timers[timer].timer -= 1;
         if (this.timers.shootTimer.timer <= -100) this.timers.shootTimer.timer = 0
-        console.log(this.timers)
 
         for (const bhv of this.ai.states[this.aiState].behaviour) {
             const args = bhv.split(' ');

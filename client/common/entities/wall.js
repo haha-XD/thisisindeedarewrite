@@ -6,7 +6,7 @@ export class Wall extends Entity {
     objType = this.constructor.name;
     rotate = true;
     
-    constructor({x, y, size}) {
-        super(x, y, size)
+    constructor({x, y, size, id=null}) {
+        super(x, y, size, id)
     }
 }

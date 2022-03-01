@@ -7,8 +7,8 @@ export class Player extends Entity {
     objType = this.constructor.name;
     doNotUpdate = true;
     
-    constructor({x, y, size, speed, socketId}) {
-        super(x, y, size);
+    constructor({x, y, size, speed, socketId, id=null}) {
+        super(x, y, size, id);
         this.speed = speed;
         this.socketId = socketId;
     }

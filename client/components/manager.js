@@ -11,7 +11,9 @@ export default class ClientManager {
         players : {},
         enemies : {},
         walls : {},
-        projectiles : {} //projectile id is never useful
+        /*projectile id is never useful + syncing ids is VERY 
+          prone to issues and makes bullet pattern packets hard to impelement*/
+        projectiles : [] 
     };
     playerId;
 
@@ -20,7 +22,7 @@ export default class ClientManager {
     }
 
     tick() {
-        console.log(Object.values(this.projectiles).length)
+        console.log(this.projectiles.length)
         const nowTicks = Math.floor((Date.now()-this.startTime)/SV_TICK_RATE)
         const currentTick = this.startTicks + nowTicks + this.extraTicks;
         this.currentTick = currentTick;
@@ -29,13 +31,16 @@ export default class ClientManager {
         this.dt = (nowTs - this.lastTs)/1000;
         this.lastTs = nowTs;
 
-        for (const projectile of Object.values(this.projectiles)) {
+        let rmvArray = [] //because removing during iteration is scary.
+        for (const projectile of this.projectiles) {
             const elapsedTime = Date.now() - projectile.creationTs
-            if(!projectile.tick(this, elapsedTime)) delete this.projectiles[projectile.id]
+            if(!projectile.tick(this, elapsedTime)) rmvArray.push(projectile);
             const position = projectile.getPosition(elapsedTime);
             projectile.x = position.x;
             projectile.y = position.y;
         }
+        this.entities.projectiles = this.projectiles.filter(element => !rmvArray.includes(element));
+        console.log(this.projectiles)
     }
 
     get players() { return this.entities.players }
