@@ -6,7 +6,7 @@
         "/" : {
             "entityType" : "Enemy",
             "ai" : "chaser",
-            "size" : 1,
+            "size" : 32,
             "speed" : 400
         }
     },
