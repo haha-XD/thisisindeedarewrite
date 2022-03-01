@@ -1,3 +1,5 @@
+import Point from "../common/utils/point.js";
+
 export default class Controller {
     #cmdNum = 0;
     svKeys = ['KeyW', 'KeyA', 'KeyS', 'KeyD'];
@@ -5,9 +7,15 @@ export default class Controller {
     keysPressed = {};
     rotation = 0;
     rotationSpeed = 200;
-    
-    constructor() {
-        this.attachEventHandlers();
+    mouseHolding = false;
+    mousePos = new Point(0,0)
+    mouseObj;
+
+    constructor(canvas) {
+        this.canvas = canvas;
+
+        this.attachKeyboardHandlers();
+        this.attachMouseHandlers();
     }
 
     processInputs(manager, networking) {
@@ -52,7 +60,7 @@ export default class Controller {
         }
     }
 
-    attachEventHandlers() {
+    attachKeyboardHandlers() {
         (function (self) {
             window.addEventListener('keydown', (e) => {
                 if (self.keys.includes(e.code)) {
@@ -63,6 +71,39 @@ export default class Controller {
                 if (self.keys.includes(e.code)) {
                     self.keysPressed[e.code] = false;
                 }
+            })
+        })(this);
+    }
+
+    attachMouseHandlers() {
+        (function (self) {
+            function getCursorPosition(canvas, event) {
+                const rect = canvas.getBoundingClientRect()
+                self.mousePos.x = event.clientX - rect.left
+                self.mousePos.y = event.clientY - rect.top
+            }			
+            function mouseInterval() {
+                let setIntervalId = setInterval(function() {
+                    if (!self.mouseHolding) clearInterval(setIntervalId);
+                        getCursorPosition(self.canvas, self.mouseObj);
+                }, 50); //set your wait time between consoles in milliseconds here
+            }
+
+            window.addEventListener('mousedown', () => {
+                self.mouseHolding = true;
+                mouseInterval();
+            })
+            window.addEventListener('mouseup', () => {
+                self.mouseHolding = false;
+                mouseInterval();
+            })
+            window.addEventListener('mouseleave', () => {
+                self.mouseHolding = false;
+                mouseInterval();
+            })
+            self.canvas.addEventListener('mousemove', (e) => {
+                self.mouseObj = e;
+                console.log(self.mousePos);
             })
         })(this);
     }

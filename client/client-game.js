@@ -13,7 +13,7 @@ export default class GameClient {
         this.UIcanvas = UIcanvas;
 
         waitUntil(() => this.socket.connected, () => {
-            this.controller = new Controller(); 
+            this.controller = new Controller(this.canvas); 
             this.networking = new Networking(socket);
             this.manager = new ClientManager(socket);
             this.renderer = new Renderer(this.canvas, this.UIcanvas);
