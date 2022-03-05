@@ -1,4 +1,5 @@
 import Point from "../common/utils/point.js";
+import * as bulletPatterns from '../common/bullet-patterns/index.js';
 
 export default class Controller {
     #cmdNum = 0;
@@ -18,7 +19,12 @@ export default class Controller {
         this.attachMouseHandlers();
     }
 
-    processInputs(manager, networking) {
+    processMouseInputs(manager, networking) {
+        if (this.mouseHolding) {
+        }
+    }
+
+    processKeyInputs(manager, networking) {
         let tInputs = {}
         for (const key in this.keysPressed) {
             if (this.keysPressed[key]) {
@@ -88,7 +94,6 @@ export default class Controller {
                         getCursorPosition(self.canvas, self.mouseObj);
                 }, 50); //set your wait time between consoles in milliseconds here
             }
-
             window.addEventListener('mousedown', () => {
                 self.mouseHolding = true;
                 mouseInterval();
@@ -103,7 +108,6 @@ export default class Controller {
             })
             self.canvas.addEventListener('mousemove', (e) => {
                 self.mouseObj = e;
-                console.log(self.mousePos);
             })
         })(this);
     }

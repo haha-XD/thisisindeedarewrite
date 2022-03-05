@@ -32,7 +32,7 @@ export default class GameClient {
         this.manager.tick();
         this.checkSendTime(this.manager);
         this.networking.processServerMessages(this.manager);
-        this.controller.processInputs(this.manager, this.networking);
+        this.controller.processKeyInputs(this.manager, this.networking);
         Networking.interpolateEntities(this.manager);
         this.renderer.draw(this.manager, this.controller.rotation);
     }
