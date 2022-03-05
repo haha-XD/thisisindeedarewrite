@@ -1,6 +1,6 @@
 const { Pool } = require('pg')
 
-export class Database {
+export default class Database {
     constructor() {
         const pool = new Pool({
             connectionString: process.env.DATABASE_URL,
@@ -24,7 +24,11 @@ export class Database {
                 "email VARCHAR ( 255 ) UNIQUE NOT NULL," +
                 "created_on TIMESTAMP NOT NULL," +
                     "last_login TIMESTAMP " +
-            ");"
+            ");",
+            null,
+            (err, res) => {
+                console.log(err, res);
+            }
         )
     }
 }

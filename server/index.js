@@ -6,6 +6,7 @@ import { Server } from 'socket.io';
 import { Manager } from './components/manager.js'
 import Profile from './components/profile.js';
 import * as h from './handlers/index.js'
+import Database from './components/database.js';
 import registerUpdater from './register-updater.js';
 import registerTicker from './register-ticker.js';
 
@@ -16,6 +17,8 @@ const io = new Server(server);
 const manager = new Manager(io);
 
 manager.createWorld('nexus');
+db = new Database()
+db.createAccountTable();
 
 const onConnection = (socket) => {
     socket.profile = new Profile(manager, socket)
