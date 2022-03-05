@@ -17,7 +17,7 @@ const io = new Server(server);
 const manager = new Manager(io);
 
 manager.createWorld('nexus');
-db = new Database()
+const db = new Database()
 db.createAccountTable();
 
 const onConnection = (socket) => {

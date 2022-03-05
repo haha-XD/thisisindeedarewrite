@@ -1,4 +1,5 @@
-const { Pool } = require('pg')
+import * as pg from 'pg'
+const { Pool } = pg.default;
 
 export default class Database {
     constructor() {
