@@ -1,0 +1,14 @@
+{
+    "testshot" : {
+        "type" : "Radial",
+        "shotCount" : 1,
+        "direction" : 90,
+        "projDesc": {
+            "target" : "players",
+            "speed" : 20, 
+            "size" : 16,
+            "lifetime" : 3000,
+            "damage" : 5
+        }
+    }
+}
