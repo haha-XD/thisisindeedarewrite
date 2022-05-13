@@ -15,7 +15,7 @@ export class Enemy extends Entity {
         this.aiState = ai.defaultState;
     }
     
-    closest(playerEntities) {
+    closestPlayer(playerEntities) {
         let min = Infinity
         let player;
         for (let p of playerEntities) {
@@ -42,7 +42,7 @@ export class Enemy extends Entity {
         const worldObj = manager.worlds[worldName];
         const playerEntities = Object.values(worldObj.players);
         if (!playerEntities.length) return; 
-        const closest = this.closest(playerEntities)
+        const closest = this.closestPlayer(playerEntities)
         
         for (const timer in this.timers) this.timers[timer].timer -= 1;
         if (this.timers.shootTimer.timer <= -100) this.timers.shootTimer.timer = 0
@@ -54,7 +54,7 @@ export class Enemy extends Entity {
     }
 
     chase(args, manager, closest, world) {
-        const movementVec = Vector2.advance(closest.angle, this.speed * manager.dt);
+        const movementVec = Vector2.fromDirection(closest.angle, this.speed * manager.dt);
         this.x += movementVec.x;
         this.y += movementVec.y;
     }

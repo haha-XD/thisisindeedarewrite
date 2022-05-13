@@ -1,27 +1,27 @@
 <html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="./css/main.css">
+	</head>
+	
 	<body>
 		<div id="positionStatus"></div>
-		<button id="testButton">test button</button>
-		<br>
 		<div class="gameContainer">
-			<canvas id="gameCanvas" width="800" height="800" style="border:1px solid #000000;">this browser doesnt work with canvas</canvas></canvas>
-			<canvas id="gameUI" width="300" height="800" style="border:1px solid #000000;">this browser doesnt work with canvas</canvas></canvas>
+			<canvas id="gameCanvas" width="1100" height="800" style="border:1px solid #000000;">this browser doesnt work with canvas</canvas>
+			<div class="chatContainer">
+				<div class="chatMessages"></div>
+				<div class="chatInput">
+					<input id="messageBox" autocomplete="off" />
+					<button>Send</button>
+				</div>
+			</div>
 		</div>
 
 		<script type = "module">
-			import { io } from "https://cdn.socket.io/4.3.0/socket.io.esm.min.js";
-			import GameClient from './client-game.js'
+			import GameClient from './client-game.js';
+			import GameMenu from './client-menu.js';
 
-			const game = new GameClient(
-				document.getElementById('gameCanvas'), 
-				document.getElementById('gameUI'),
-				io()
-			);
-
-			function sendTest() {
-				socket.emit('test');
-			}
-			document.getElementById('testButton').addEventListener('click', sendTest);
+			const game = new GameClient();
+			const menu = new GameMenu(game);
 		</script>
 	</body>
 </html>

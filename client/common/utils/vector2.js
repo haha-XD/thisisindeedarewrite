@@ -51,7 +51,7 @@ export default class Vector2 {
         return this;
     }
 
-    fix() {
+    fix() { //javascript weirdness
         if (Math.abs(this.x) < 0.0001) {
             this.x = 0;
         }
@@ -61,7 +61,7 @@ export default class Vector2 {
         return this;
     }
 
-    static advance(angle, amount) {
+    static fromDirection(angle, amount) {
         const vecX = Math.cos(radians(angle)) * amount;
         const vecY = Math.sin(radians(angle)) * amount;
         return new Vector2(vecX, vecY);

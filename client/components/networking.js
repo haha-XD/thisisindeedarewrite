@@ -19,6 +19,8 @@ export default class Networking {
             this.lastAckNum = msg.inputAckNum;
             this.performServerReconciliation(manager);
         }
+
+        Networking.interpolateEntities(manager)
     }
 
     performServerReconciliation(manager) {

@@ -2,6 +2,7 @@ export function registerManagerHandlers(manager, socket) {
     const tick = function() {
         socket.emit(manager.currentTick);
     }
+    
 
     const onPing = function() {
         const p = socket.profile;

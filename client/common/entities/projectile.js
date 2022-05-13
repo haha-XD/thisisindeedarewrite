@@ -7,6 +7,7 @@ export class Projectile extends Entity {
     category = ENTITY_CATEGORY.projectiles;
     objType = this.constructor.name;
     doNotUpdate = true;
+    rotate = true;
 
     constructor({x, y, speed, size, lifetime, damage, direction, target}) {
         super(x, y, size, -1) //id is ALWAYS -1 because syncing is hard

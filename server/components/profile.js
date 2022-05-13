@@ -4,8 +4,10 @@ export default class Profile {
     
     bulletPatterns = {}
     bullets = [];
+
+    shotBullets = [];
     
     constructor(manager, socket) {
-        this.playerEntity = manager.worlds[this.currentWorld].spawnPlayer(socket);   
+        this.playerEntity = manager.worlds[this.currentWorld].spawnPlayer(socket);       
     }
 }

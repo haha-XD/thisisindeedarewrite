@@ -1,6 +1,13 @@
 import Point from "../common/utils/point.js";
 import * as bulletPatterns from '../common/bullet-patterns/index.js';
+import { ENTITY_CATEGORY } from "../common/constants.js";
+import { Projectile } from "../common/entities/projectile.js";
 
+/*
+client module that manages the receiving of input from the browser,
+the storage of options relating to input, and the sending of inputs 
+to the server.
+*/
 export default class Controller {
     #cmdNum = 0;
     svKeys = ['KeyW', 'KeyA', 'KeyS', 'KeyD'];
@@ -19,8 +26,36 @@ export default class Controller {
         this.attachMouseHandlers();
     }
 
+    processInputs(manager, networking) {
+        this.processKeyInputs(manager, networking);
+        this.processMouseInputs(manager, networking);
+    }
+
     processMouseInputs(manager, networking) {
         if (this.mouseHolding) {
+            if (true) {
+                const midX = this.canvas.width/2;
+                const midY = this.canvas.height/2;
+                const relativeX = this.mousePos.x - midX;
+                const relativeY = this.mousePos.y - midY; 
+                const angle = Math.atan2(relativeY, relativeX) * (180/Math.PI);
+
+                const testProjDesc = {
+                    x: manager.player.x,
+                    y: manager.player.y,
+                    speed: 200,
+                    size: 16,
+                    lifetime: 1000,
+                    damage: 10,
+                    direction: angle - this.rotation,
+                    target: ENTITY_CATEGORY.enemies
+                }
+                const testProj = new Projectile(testProjDesc);
+                manager.projectiles.push(testProj);
+                networking.socket.emit('tryShoot',  {
+                    clientTS: Date.now()
+                });
+            }
         }
     }
 

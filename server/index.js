@@ -17,17 +17,20 @@ const io = new Server(server);
 const manager = new Manager(io);
 
 manager.createWorld('nexus');
-const db = new Database()
-db.createAccountTable();
+//const db = new Database()
+//db.createAccountTable();
 
 const onConnection = (socket) => {
-    socket.profile = new Profile(manager, socket)
+    const onStartGame = function() {
+        socket.profile = new Profile(manager, socket)
 
-    h.registerInputHandlers(manager, socket);
-    h.registerManagerHandlers(manager, socket);
-    h.registerBulletAckHandler(manager, socket);
-
-    registerUpdater(manager, socket);
+        h.registerManagerHandlers(manager, socket);
+        h.registerInputHandlers(manager, socket);
+        h.registerBulletAckHandler(manager, socket);
+    
+        registerUpdater(manager, socket);
+    }
+    socket.on('startGame', onStartGame);
 }
 io.on('connection', onConnection);
 

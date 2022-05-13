@@ -4,7 +4,8 @@ export function registerBulletAckHandler(manager, socket) {
     const onBulletAck = function({id, clientTime}) {
         const p = socket.profile;
         const bp = p.bulletPatterns[id];
-        let bulletArray = []
+        delete p.bulletPatterns[id];
+        let bulletArray = [];
         bp.createProjs(bulletArray);
         p.bullets.push({
             creationTs : clientTime, //IMPORTANT: THIS IS CLIENT TIME!!!

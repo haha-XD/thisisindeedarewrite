@@ -1,3 +1,5 @@
+import { io } from "https://cdn.socket.io/4.3.0/socket.io.esm.min.js";
+
 import * as h from './handlers/index.js'
 import ClientManager from "./components/manager.js";
 import waitUntil from './common/utils/waituntil.js';
@@ -7,38 +9,45 @@ import Networking from './components/networking.js';
 import Renderer from './components/renderer.js';
 
 export default class GameClient {
-    constructor(canvas, UIcanvas, socket) {
-        this.socket = socket;
-        this.canvas = canvas;
-        this.UIcanvas = UIcanvas;
+    constructor() {
+        this.socket = io();
+        this.canvas = document.getElementById('gameCanvas');
+        this.uiCanvas = document.getElementById('GameMenu');
+    }
 
-        waitUntil(() => this.socket.connected, () => {
+    start() {
+        waitUntil(() => this.socket.connected, () => {        
+            this.socket.emit('startGame');
+
             this.controller = new Controller(this.canvas); 
-            this.networking = new Networking(socket);
-            this.manager = new ClientManager(socket);
-            this.renderer = new Renderer(this.canvas, this.UIcanvas);
+            this.networking = new Networking(this.socket);
+            this.manager = new ClientManager(this.socket);
+            this.renderer = new Renderer(this.canvas, this.uiCanvas);
 
-            h.registerBulletPatternHandler(this.manager, socket);
-            h.registerClManagerHandlers(this.manager, socket);
-            h.registerUpdateHandler(this.networking, socket);
-            setInterval(
+            h.registerBulletPatternHandler(this.manager, this.socket);
+            h.registerClManagerHandlers(this.manager, this.socket);
+            h.registerUpdateHandler(this.networking, this.socket);
+            this.interval = setInterval(
                 function(self) { return function() { self.tick() } }(this), 
                 CL_TICK_RATE
             );
         })
     }
 
+    stop() {
+        clearInterval(this.interval)
+    }
+
     tick() {
-        this.manager.tick();
-        this.checkSendTime(this.manager);
+        this.manager.tick(this.networking.socket);
+        this.sendTime(this.manager);
         this.networking.processServerMessages(this.manager);
-        this.controller.processKeyInputs(this.manager, this.networking);
-        Networking.interpolateEntities(this.manager);
+        this.controller.processInputs(this.manager, this.networking);
         this.renderer.draw(this.manager, this.controller.rotation);
     }
 
-    checkSendTime(manager) {
-        if (!(manager.currentTick % 2)) {
+    sendTime(manager) {
+        if (!(manager.currentTick % 3)) {
             this.socket.emit('time', Date.now());
         }
     }
