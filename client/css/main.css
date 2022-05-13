@@ -1,0 +1,26 @@
+body {
+    background-color: #dedede;
+}
+
+.gameContainer {
+    display: flex;
+    margin: auto;
+    width: 80%;
+}
+
+.chatMessages {
+    height: 94%;
+    width: 99%;
+    border: 1px solid; 
+    background-color: #d3d3d3;
+    font: 1em "Open Sans", sans-serif;
+    overflow: auto;
+}
+
+.chatInput > input {
+    width: 100%;
+}
+
+.chatInput > button {
+    width: 100%;
+}
