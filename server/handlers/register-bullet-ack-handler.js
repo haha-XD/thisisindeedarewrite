@@ -38,6 +38,7 @@ export function registerBulletAckHandler(manager, socket) {
                 if (bullet.detectEntityCollision(p.playerEntity) && 
                     bullet.target==ENTITY_CATEGORY.players) {
                     p.playerEntity.hp -= bullet.damage;
+                    rmvArray.push(bullet);
                 }
                 if (p.playerEntity.hp <= 0 && !p.playerEntity.dead) {
                     p.playerEntity.dead = true;

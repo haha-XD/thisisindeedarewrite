@@ -5,18 +5,18 @@ export default class GameMenu {
     buttonRects = [
         {
             colour : "white",
-            x : 280, 
+            x : 635, 
             y : 300,
             width : 0,
             height : 0,
             text : "JUST DODGE",
-            textColour : "#3d0400",
+            textColour : '#750800',
             font : "100px Lucida Console",
             textXOffset : 50,
             textYOffset : 35
         },
         {
-            colour : "black",
+            colour : '#750800',
             x : 490, 
             y : 500,
             width : 300,
@@ -29,7 +29,7 @@ export default class GameMenu {
             onClick : this.startGame
         },
         {
-            colour : "black",
+            colour : '#750800',
             x : 490, 
             y : 575,
             width : 300,
@@ -91,8 +91,10 @@ export default class GameMenu {
             if (b.text) {
                 this.ctx.fillStyle = b.textColour ? b.textColour : "black";
                 this.ctx.font = b.font;
+                const textWidth = this.ctx.measureText(b.text).width; 
+                const textHeight = this.ctx.measureText(b.text).height; 
                 this.ctx.fillText(
-                    b.text, b.x + b.textXOffset, b.y + b.textYOffset
+                    b.text, b.x + b.width/2 - textWidth/2, b.y + b.textYOffset 
                 );    
             }
         }

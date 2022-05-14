@@ -4,10 +4,10 @@
             "behaviour" : ["stateChangeTime aShootTimer 12 shootPatternRed"]
         },
         "shootPatternRed" : {
-            "behaviour" : ["shoot radialShotgun 5", "stateChangeTime aShootTimer 12 shootPatternBlue"]
+            "behaviour" : ["shoot radialShotgun 10", "stateChangeTime aShootTimer 20 shootPatternBlue"]
         },
         "shootPatternBlue" : {
-            "behaviour" : ["shootClosest targetedShot 10", "stateChangeTime aShootTimer 20 shootPatternRed"]
+            "behaviour" : ["shootClosest targetedShot 20", "stateChangeTime aShootTimer 30 shootPatternRed"]
         }
     },
     "defaultState" : "standby",
@@ -21,7 +21,7 @@
                 "speed" : 10, 
                 "size" : 16,
                 "lifetime" : 8000,
-                "damage" : 50
+                "damage" : 100
             }
         },
         "targetedShot" : {
@@ -29,10 +29,10 @@
             "shotCount" : 1,
             "projDesc": {
                 "target" : "players",
-                "speed" : 10, 
+                "speed" : 15, 
                 "size" : 32,
                 "lifetime" : 8000,
-                "damage" : 50
+                "damage" : 300
             }
         }
     }

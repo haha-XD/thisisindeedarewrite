@@ -1,7 +1,7 @@
 {
     "states" : {
         "stationaryShoot" : {
-            "behaviour" : ["shoot radialShotgun 4", "stateChangeTime waitTimer 6 wait"]
+            "behaviour" : ["shoot radialShotgun 10", "stateChangeTime waitTimer 30 wait"]
         },
         "wait" : {
             "behaviour" : ["stateChangeTime waitTimer 6 stationaryShoot"]
@@ -18,7 +18,7 @@
                 "speed" : 20, 
                 "size" : 16,
                 "lifetime" : 3000,
-                "damage" : 50
+                "damage" : 150
             }
         }
     }

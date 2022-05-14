@@ -31,7 +31,7 @@ export default class Renderer {
 
         for(const entity of Object.values(manager.entities.walls)) {
             const p = this.relativePosition(entity, player, rotation)
-            this.blitWallProjection(entity.size, p.x, p.y - entity.size/2, rotation, 'black');
+            this.blitWallProjection(entity.size, p.x, p.y - entity.size/2, rotation, "#3d0400");
         }
 
         for (const entityType of Object.values(manager.entities)) {
@@ -40,7 +40,7 @@ export default class Renderer {
 
                 const p = this.relativePosition(entity, player, rotation)
 
-                if (!entity.rotate && entity.category == ENTITY_CATEGORY.players) {
+                if (entity.category == ENTITY_CATEGORY.players) {
                     const playerColour = entity.dead ? 'grey' : '#750800'
                     this.blit(entity.size, p.x, p.y, playerColour);
                     
@@ -52,14 +52,20 @@ export default class Renderer {
                         p.x - textWidth/2, 
                         p.y + 30
                     );
-                } else if (!entity.rotate) this.blit(entity.size, p.x, p.y, '#750800');
+                } else if (entity.category == ENTITY_CATEGORY.projectiles) {
+                    this.ctx.fillStyle = '#750800'
+                    this.ctx.beginPath();
+                    this.ctx.arc(p.x, p.y, entity.size/2, 0, 2 * Math.PI);
+                    this.ctx.fill();
+                } 
+                else if (!entity.rotate) this.blit(entity.size, p.x, p.y, '#750800');
                 else this.blitRotated(entity.size, p.x, p.y, rotation, '#750800');
             }
         } 
 
         for(const entity of Object.values(manager.entities.walls)) {
             const p = this.relativePosition(entity, player, rotation)
-            this.blitWallTop(entity.size, p.x, p.y - entity.size/2, rotation, "#3d0400");
+            this.blitWallTop(entity.size, p.x, p.y - entity.size/2, rotation, "#750800");
         }
 
         if (DEBUG_MODE) {
@@ -81,6 +87,10 @@ export default class Renderer {
         }
         
         //hp bar
+        this.drawHealthbar(player);
+    }
+
+    drawHealthbar(player) {
         if (!player.dead) {
             let healthbarY = this.canvas.height * 8/9
             let healthbarX = this.canvas.width / 3.9

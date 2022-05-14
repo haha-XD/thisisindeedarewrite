@@ -20,7 +20,7 @@ export class Manager {
         this.inGame = true;
         this.io.emit('message', {
             playerName : '[SERVER]',
-            message : '<em>Game started !</em>'
+            message : '<em>Game started!</em>'
         });
 
         const arena = this.createWorld('arena', 1)
