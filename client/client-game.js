@@ -13,17 +13,26 @@ export default class GameClient {
         this.socket = io();
         this.canvas = document.getElementById('gameCanvas');
         this.uiCanvas = document.getElementById('GameMenu');
+
+        this.msgBox = document.getElementById('messageBox');
+        this.sendMsgBtn = document.getElementById('sendMsgBtn');
+        this.chatMessages = document.getElementById('chatMessages');
     }
 
     start() {
         waitUntil(() => this.socket.connected, () => {        
             this.socket.emit('startGame');
+            this.sendMsgBtn.disabled = false;
+            this.msgBox.disabled = false;
+
+            this.attachSendMessage();
 
             this.controller = new Controller(this.canvas); 
             this.networking = new Networking(this.socket);
             this.manager = new ClientManager(this.socket);
             this.renderer = new Renderer(this.canvas, this.uiCanvas);
 
+            h.registerMessageHandler(this.manager, this.socket, this.chatMessages);
             h.registerBulletPatternHandler(this.manager, this.socket);
             h.registerClManagerHandlers(this.manager, this.socket);
             h.registerUpdateHandler(this.networking, this.socket);
@@ -34,8 +43,18 @@ export default class GameClient {
         })
     }
 
+    attachSendMessage() {
+        (function(self) {
+            const sendMsg = function() {
+                self.socket.emit('message', { message : self.msgBox.value})
+                self.msgBox.value = ""
+            }
+            self.sendMsgBtn.addEventListener('click', sendMsg)
+        })(this)
+    }
+
     stop() {
-        clearInterval(this.interval)
+        if (this.interval) clearInterval(this.interval);
     }
 
     tick() {

@@ -56,7 +56,7 @@ export default class Renderer {
                     const p = this.relativePosition(entity, player, rotation)
                     if (entity.id) {
                         this.ctx.fillStyle = "black";
-                        this.ctx.font = "20px Helvetica";
+                        this.ctx.font = "20px Lucida Console";
                         this.ctx.fillText(
                             entity.id, 
                             p.x-entity.size/2, 

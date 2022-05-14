@@ -3,5 +3,7 @@ export function registerPlayerShootHandler(manager, socket) {
 
     }
 
+    console.log('[SERVER] loaded shoot handler', socket.profile.playerName)
+
     socket.on('tryShoot', onTryShoot)
 }

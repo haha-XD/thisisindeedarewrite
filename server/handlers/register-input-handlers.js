@@ -8,5 +8,7 @@ export function registerInputHandlers(manager, socket) {
         p.inputAckNum = num;
     }
 
+    console.log('[SERVER] loaded input handler', socket.profile.playerName)
+
     socket.on('input', input)
 }

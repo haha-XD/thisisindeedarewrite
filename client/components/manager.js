@@ -1,6 +1,7 @@
 import { ENTITY_CATEGORY, SV_TICK_RATE } from "../common/constants.js";
 
 export default class ClientManager {
+    chatMsgs = [];
     startTime = Date.now();
     lastTs = Date.now()
     dt = 0;

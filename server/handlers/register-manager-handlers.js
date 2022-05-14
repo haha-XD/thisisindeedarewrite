@@ -3,7 +3,6 @@ export function registerManagerHandlers(manager, socket) {
         socket.emit(manager.currentTick);
     }
     
-
     const onPing = function() {
         const p = socket.profile;
         const pId = p.playerEntity.id;
@@ -19,10 +18,13 @@ export function registerManagerHandlers(manager, socket) {
         const wId = p.currentWorld
         const id = p.playerEntity.id;
         manager.worlds[wId].deleteEntity(id);
+        clearInterval(socket.updateInterval);
     }
+
+    console.log('[SERVER] loaded manager handler', socket.profile.playerName)
 
     socket.on('input', tick);
     socket.on('ping', onPing);
-    
+
     socket.on('disconnect', disconnect);
 }

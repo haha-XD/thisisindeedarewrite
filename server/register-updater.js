@@ -11,5 +11,5 @@ export default function registerUpdater(manager, socket) {
         }        
         socket.emit('update', data)
     }
-    setInterval(update, SV_UPDATE_RATE)
+    return setInterval(update, SV_UPDATE_RATE)
 }

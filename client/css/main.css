@@ -1,5 +1,5 @@
 body {
-    background-color: #dedede;
+    background-color: #ad9e9e;
 }
 
 .gameContainer {
@@ -9,12 +9,13 @@ body {
 }
 
 .chatMessages {
-    height: 94%;
-    width: 99%;
+    height: 758px;
+    width: 300px;
     border: 1px solid; 
     background-color: #d3d3d3;
-    font: 1em "Open Sans", sans-serif;
-    overflow: auto;
+    font: 1em "Lucida Console", sans-serif;
+    white-space: initial;
+    overflow-y: scroll;
 }
 
 .chatInput > input {

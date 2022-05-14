@@ -22,13 +22,21 @@ manager.createWorld('nexus');
 
 const onConnection = (socket) => {
     const onStartGame = function() {
-        socket.profile = new Profile(manager, socket)
+        const playerName = "Guest" + Math.floor(Math.random() * 1000); 
+        socket.profile = new Profile(manager, socket, playerName);
 
+        io.emit('message', {
+            playerName : '[SERVER]',
+            message : `${playerName} joined the lobby.`
+        });
+
+        h.registerMessageHandler(manager, socket, io);
         h.registerManagerHandlers(manager, socket);
         h.registerInputHandlers(manager, socket);
         h.registerBulletAckHandler(manager, socket);
     
-        registerUpdater(manager, socket);
+        socket.updateInterval = registerUpdater(manager, socket);
+        socket.off('startGame', onStartGame);
     }
     socket.on('startGame', onStartGame);
 }

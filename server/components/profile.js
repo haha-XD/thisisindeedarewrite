@@ -7,7 +7,10 @@ export default class Profile {
 
     shotBullets = [];
     
-    constructor(manager, socket) {
-        this.playerEntity = manager.worlds[this.currentWorld].spawnPlayer(socket);       
+    constructor(manager, socket, playerName) {
+        this.playerEntity = manager.worlds[this.currentWorld].spawnPlayer(socket); 
+        this.playerEntity.name = playerName;
     }
+
+    get playerName() { return this.playerEntity.name; }
 }

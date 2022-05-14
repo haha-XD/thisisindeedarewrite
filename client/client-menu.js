@@ -1,5 +1,7 @@
+import { CL_TICK_RATE } from "./common/constants.js"
+
 export default class GameMenu {
-    gameStarting = false;
+    gameStarted = false;
     buttonRects = [
         {
             colour : "white",
@@ -44,12 +46,21 @@ export default class GameMenu {
     constructor(game) {
         this.game = game;
         this.ctx = this.game.canvas.getContext('2d')
-        this.attachClickHandler()
-        this.render();
+    }
+
+    startMenu() {
+        this.gameStarted = false;
+        this.game.stop()
+        this.attachClickHandler();
+        this.interval = setInterval(
+            function(self) { return function() { self.render() } }(this), 
+            CL_TICK_RATE
+        );
     }
 
     startGame(self) {
         if (!self.gameStarted){
+            clearInterval(self.interval)
             self.game.start();
             self.gameStarted = true;
             self.renderLoad(self)
@@ -90,7 +101,6 @@ export default class GameMenu {
     attachClickHandler() {
         (function (self) {
             function isInside(pos, rect){
-                console.log(pos, rect)
                 return pos.x > rect.x && 
                        pos.x < rect.x + rect.width && 
                        pos.y < rect.y + rect.height && 

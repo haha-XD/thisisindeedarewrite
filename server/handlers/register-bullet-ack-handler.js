@@ -36,6 +36,8 @@ export function registerBulletAckHandler(manager, socket) {
         }
     }
 
+    console.log('[SERVER] loaded bullet handler for', socket.profile.playerName)
+
     socket.on('ackBulletPattern', onBulletAck);
     socket.on('time', onTime);
 }

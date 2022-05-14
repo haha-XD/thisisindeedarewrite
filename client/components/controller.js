@@ -104,11 +104,13 @@ export default class Controller {
     attachKeyboardHandlers() {
         (function (self) {
             window.addEventListener('keydown', (e) => {
+                if (document.activeElement == document.getElementById('messageBox')) return;
                 if (self.keys.includes(e.code)) {
                     self.keysPressed[e.code] = true;
                 }
             })
             window.addEventListener('keyup', (e) => {
+                if (document.activeElement == document.getElementById('messageBox')) return;
                 if (self.keys.includes(e.code)) {
                     self.keysPressed[e.code] = false;
                 }
@@ -119,9 +121,11 @@ export default class Controller {
     attachMouseHandlers() {
         (function (self) {
             function getCursorPosition(canvas, event) {
-                const rect = canvas.getBoundingClientRect()
-                self.mousePos.x = event.clientX - rect.left
-                self.mousePos.y = event.clientY - rect.top
+                if (event) {
+                    const rect = canvas.getBoundingClientRect()
+                    self.mousePos.x = event.clientX - rect.left
+                    self.mousePos.y = event.clientY - rect.top    
+                }
             }			
             function mouseInterval() {
                 let setIntervalId = setInterval(function() {
