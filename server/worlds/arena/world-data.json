@@ -1,0 +1,20 @@
+{
+    "entityDict" : {
+        "#" : {
+            "entityType" : "Wall"
+        },
+        "/" : {
+            "entityType" : "Enemy",
+            "ai" : "chaser",
+            "size" : 96,
+            "speed" : 400
+        },
+        "*" : {
+            "entityType" : "Enemy",
+            "ai" : "pillar",
+            "size" : 96,
+            "speed" : 400
+        }
+    },
+    "spawns" : [[1088, 1088], [64, 64], [1088, 64], [64, 1088]]
+}

@@ -16,22 +16,31 @@ const server = http.createServer(app);
 const io = new Server(server);
 const manager = new Manager(io);
 
-manager.createWorld('nexus');
-//const db = new Database()
-//db.createAccountTable();
+manager.createWorld('nexus', 0);
 
 const onConnection = (socket) => {
     const onStartGame = function() {
         const playerName = "Guest" + Math.floor(Math.random() * 1000); 
-        socket.profile = new Profile(manager, socket, playerName);
+        socket.profile = new Profile(playerName);
+        manager.activeSockets.push(socket);
+        socket.profile.playerEntity = manager.worlds[socket.profile.currentWorld].spawnPlayer(socket);
 
         io.emit('message', {
             playerName : '[SERVER]',
-            message : `${playerName} joined the lobby.`
+            message : `<em>${playerName} joined the server.</em>`
+        });
+        socket.emit('message', {
+            playerName : '[SERVER]',
+            message : '<br><em>Use "/name &lt;name&gt;" to change your name.</em>'
+        });
+        socket.emit('message', {
+            playerName : '[SERVER]',
+            message : '<br><em>Use "/ready" to join the next game.</em>'
         });
 
+
         h.registerMessageHandler(manager, socket, io);
-        h.registerManagerHandlers(manager, socket);
+        h.registerManagerHandlers(manager, socket, io);
         h.registerInputHandlers(manager, socket);
         h.registerBulletAckHandler(manager, socket);
     

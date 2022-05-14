@@ -21,21 +21,22 @@ export default class World {
         
         this.loadEnemyAI(worldName);
         this.loadMap(worldName, worldData['entityDict']);
-        this.worldSpawn = new Point(worldData['spawn'][0], worldData['spawn'][1]);
-
+        this.worldSpawns = worldData['spawns'].map((coords) => new Point(coords[0], coords[1]));
         this.id = wId;
         wId++;
     }
 
     spawnPlayer(socket) {
+        const worldSpawn = this.worldSpawns[Math.floor(Math.random() * this.worldSpawns.length)]
         const player = new entityTypes.Player({
-            x: this.worldSpawn.x,
-            y: this.worldSpawn.y,
+            x: worldSpawn.x,
+            y: worldSpawn.y,
             size: 32,
             speed: 500,
             hp: 1000,
             socketId: socket.id
         })
+        player.name = socket.profile.playerName;
         this.players[player.id] = player;
         return player;
     }
@@ -82,8 +83,11 @@ export default class World {
                     entityData.x = TILE_SIZE/2 + (TILE_SIZE * x);
                     entityData.y = TILE_SIZE/2 + (TILE_SIZE * y);
                     entityData.size = entityData.size || TILE_SIZE;
-                    if (entityData.ai) entityData.ai = this.enemyAI[entityData.ai];
-
+                    if (typeof entityData.ai == 'string') 
+                    {
+                        console.log('test', entityData);
+                        entityData.ai = this.enemyAI[entityData.ai];
+                    }
                     const entity = new entityTypes[entityDict[char].entityType](entityData);
                     this.spawnEntity(entity);
                 }

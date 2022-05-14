@@ -6,11 +6,15 @@ export default class Profile {
     bullets = [];
 
     shotBullets = [];
-    
-    constructor(manager, socket, playerName) {
-        this.playerEntity = manager.worlds[this.currentWorld].spawnPlayer(socket); 
-        this.playerEntity.name = playerName;
-    }
 
-    get playerName() { return this.playerEntity.name; }
+    inGame = false;
+    ready = false;
+    
+    lastTimePacket = 0
+
+    playerEntity;
+    
+    constructor(playerName) {
+        this.playerName = playerName;
+    }
 }

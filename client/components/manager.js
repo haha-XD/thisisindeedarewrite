@@ -23,6 +23,15 @@ export default class ClientManager {
         socket.emit('ping');
     }
 
+    clearEntities() {
+        this.entities = {
+            players : {},
+            enemies : {},
+            walls : {},
+            projectiles : [] 
+        };
+    }
+
     tick(socket) {
         const nowTicks = Math.floor((Date.now()-this.startTime)/SV_TICK_RATE)
         const currentTick = this.startTicks + nowTicks + this.extraTicks;

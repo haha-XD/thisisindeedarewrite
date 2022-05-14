@@ -34,7 +34,7 @@ export default class GameClient {
 
             h.registerMessageHandler(this.manager, this.socket, this.chatMessages);
             h.registerBulletPatternHandler(this.manager, this.socket);
-            h.registerClManagerHandlers(this.manager, this.socket);
+            h.registerClManagerHandlers(this.manager, this.socket, this.networking);
             h.registerUpdateHandler(this.networking, this.socket);
             this.interval = setInterval(
                 function(self) { return function() { self.tick() } }(this), 

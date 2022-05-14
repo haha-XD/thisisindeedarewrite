@@ -17,6 +17,14 @@ export function registerBulletAckHandler(manager, socket) {
         //COLLISION CHECK
         const p = socket.profile;
         const world = manager.worlds[p.currentWorld];
+        if (Date.now() - p.lastTimePacket > 3000 && p.lastTimePacket != 0) {
+            socket.emit('message', {
+                playerName : "[SYSTEM]",
+                message : "<em>You were disconnected because you took too long to send your time packet.</em>"
+            })
+            socket.disconnect();
+        }
+        p.lastTimePacket = Date.now(); 
         for (const bulletsObj of p.bullets) {
             const creationTs = bulletsObj.creationTs;
             let bullets = bulletsObj.bullets;
@@ -30,6 +38,13 @@ export function registerBulletAckHandler(manager, socket) {
                 if (bullet.detectEntityCollision(p.playerEntity) && 
                     bullet.target==ENTITY_CATEGORY.players) {
                     p.playerEntity.hp -= bullet.damage;
+                }
+                if (p.playerEntity.hp <= 0 && !p.playerEntity.dead) {
+                    p.playerEntity.dead = true;
+                    manager.io.emit('message', {
+                        playerName : '[SERVER]',
+                        message : `<em>${p.playerEntity.name} has died. ${manager.alivePlayersInGame.length} players remain.</em>`
+                    });
                 }
             }
             bulletsObj.bullets = bullets.filter(element => !rmvArray.includes(element))

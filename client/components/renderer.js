@@ -40,7 +40,19 @@ export default class Renderer {
 
                 const p = this.relativePosition(entity, player, rotation)
 
-                if (!entity.rotate) this.blit(entity.size, p.x, p.y, '#750800');
+                if (!entity.rotate && entity.category == ENTITY_CATEGORY.players) {
+                    const playerColour = entity.dead ? 'grey' : '#750800'
+                    this.blit(entity.size, p.x, p.y, playerColour);
+                    
+                    this.ctx.fillStyle = "black";
+                    this.ctx.font = "15px Lucida Console";
+                    const textWidth = this.ctx.measureText(entity.name).width; 
+                    this.ctx.fillText(
+                        entity.name, 
+                        p.x - textWidth/2, 
+                        p.y + 30
+                    );
+                } else if (!entity.rotate) this.blit(entity.size, p.x, p.y, '#750800');
                 else this.blitRotated(entity.size, p.x, p.y, rotation, '#750800');
             }
         } 
@@ -57,9 +69,10 @@ export default class Renderer {
                     if (entity.id) {
                         this.ctx.fillStyle = "black";
                         this.ctx.font = "20px Lucida Console";
+                        const textWidth = this.ctx.measureText(entity.name).width; 
                         this.ctx.fillText(
                             entity.id, 
-                            p.x-entity.size/2, 
+                            p.x-textWidth/2,
                             p.y+entity.size/2+15
                         );    
                     }            
@@ -68,36 +81,40 @@ export default class Renderer {
         }
         
         //hp bar
-        let healthbarY = this.canvas.height * 8/9
-        let healthbarX = this.canvas.width / 3.9
-        this.ctx.fillStyle = "black";
-        this.ctx.fillRect(
-            healthbarX, 
-            healthbarY, 
-            healthbarX * 2, 
-            25
-        );
-        this.ctx.fillStyle = "#750800";
-        this.ctx.fillRect(
-            healthbarX, 
-            healthbarY, 
-            healthbarX * 2 * (player.hp/player.maxhp), 
-            25
-        );
-        this.ctx.fillStyle = "white";
-        this.ctx.font = "20px Lucida Console";
-        this.ctx.fillText(
-            "HP", 
-            healthbarX + 10, 
-            healthbarY + 20
-        );
-        this.ctx.fillStyle = "white";
-        this.canvas.font = "18px Lucida Console";
-        this.ctx.fillText(
-            `${player.hp}/${player.maxhp}`, 
-            this.canvas.width/2.2, 
-            healthbarY + 20
-        );
+        if (!player.dead) {
+            let healthbarY = this.canvas.height * 8/9
+            let healthbarX = this.canvas.width / 3.9
+            this.ctx.fillStyle = "black";
+            this.ctx.fillRect(
+                healthbarX, 
+                healthbarY, 
+                healthbarX * 2, 
+                25
+            );
+            this.ctx.fillStyle = "#750800";
+            this.ctx.fillRect(
+                healthbarX, 
+                healthbarY, 
+                healthbarX * 2 * (player.hp/player.maxhp), 
+                25
+            );
+            this.ctx.fillStyle = "white";
+            this.ctx.font = "20px Lucida Console";
+            this.ctx.fillText(
+                "HP", 
+                healthbarX + 10, 
+                healthbarY + 20
+            );
+            this.ctx.fillStyle = "white";
+            this.canvas.font = "18px Lucida Console";
+            const hpString = `${player.hp}/${player.maxhp}`;
+            const textWidth = this.ctx.measureText(hpString).width; 
+            this.ctx.fillText(
+                hpString, 
+                this.canvas.width/2 - textWidth/2, 
+                healthbarY + 20
+            );
+        }
     }
 
     blit(size, x, y, colour) {    

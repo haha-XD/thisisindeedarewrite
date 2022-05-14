@@ -11,7 +11,7 @@ to the server.
 export default class Controller {
     #cmdNum = 0;
     svKeys = ['KeyW', 'KeyA', 'KeyS', 'KeyD'];
-    clKeys = ['KeyQ', 'KeyE', 'KeyT']; // the server does not care about these keys
+    clKeys = ['KeyQ', 'KeyE', 'KeyT', 'KeyL']; // the server does not care about these keys
     keysPressed = {};
     rotation = 0;
     rotationSpeed = 200;
@@ -23,16 +23,17 @@ export default class Controller {
         this.canvas = canvas;
 
         this.attachKeyboardHandlers();
-        this.attachMouseHandlers();
     }
 
     processInputs(manager, networking) {
         this.processKeyInputs(manager, networking);
-        this.processMouseInputs(manager, networking);
     }
 
     processMouseInputs(manager, networking) {
+        const msgBox = document.getElementById('messageBox');
+        const sendBtn = document.getElementById('sendMsgBtn');
         if (this.mouseHolding) {
+            if (document.activeElement == msgBox || document.activeElement == sendBtn) return;
             if (true) {
                 const midX = this.canvas.width/2;
                 const midY = this.canvas.height/2;
@@ -69,7 +70,11 @@ export default class Controller {
 
         const inputKeys = Object.keys(tInputs);
         if (inputKeys.length != 0) { //is not empty?
-            this.clApplyInputs(tInputs, manager.dt);
+            this.clApplyInputs(tInputs, manager.dt)
+            
+            if (tInputs['KeyL']) {
+                manager.clearEntities();    
+            };
 
             if (inputKeys.filter((key) => this.svKeys.includes(key)).length) {
                 const packagedInput = {
@@ -103,14 +108,15 @@ export default class Controller {
 
     attachKeyboardHandlers() {
         (function (self) {
+            const msgBox = document.getElementById('messageBox');
             window.addEventListener('keydown', (e) => {
-                if (document.activeElement == document.getElementById('messageBox')) return;
+                if (document.activeElement == msgBox) return;
                 if (self.keys.includes(e.code)) {
                     self.keysPressed[e.code] = true;
                 }
             })
             window.addEventListener('keyup', (e) => {
-                if (document.activeElement == document.getElementById('messageBox')) return;
+                if (document.activeElement == msgBox) return;
                 if (self.keys.includes(e.code)) {
                     self.keysPressed[e.code] = false;
                 }
@@ -120,6 +126,7 @@ export default class Controller {
 
     attachMouseHandlers() {
         (function (self) {
+            const msgBox = document.getElementById('messageBox');
             function getCursorPosition(canvas, event) {
                 if (event) {
                     const rect = canvas.getBoundingClientRect()

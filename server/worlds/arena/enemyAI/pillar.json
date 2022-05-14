@@ -1,0 +1,39 @@
+{
+    "states" : {
+        "standby" : {
+            "behaviour" : ["stateChangeTime aShootTimer 12 shootPatternRed"]
+        },
+        "shootPatternRed" : {
+            "behaviour" : ["shoot radialShotgun 5", "stateChangeTime aShootTimer 12 shootPatternBlue"]
+        },
+        "shootPatternBlue" : {
+            "behaviour" : ["shootClosest targetedShot 10", "stateChangeTime aShootTimer 20 shootPatternRed"]
+        }
+    },
+    "defaultState" : "standby",
+    "projectiles" : {
+        "radialShotgun" : {
+            "type" : "Radial",
+            "shotCount" : 10,
+            "direction" : 360,
+            "projDesc": {
+                "target" : "players",
+                "speed" : 10, 
+                "size" : 16,
+                "lifetime" : 8000,
+                "damage" : 50
+            }
+        },
+        "targetedShot" : {
+            "type" : "Radial",
+            "shotCount" : 1,
+            "projDesc": {
+                "target" : "players",
+                "speed" : 10, 
+                "size" : 32,
+                "lifetime" : 8000,
+                "damage" : 50
+            }
+        }
+    }
+}

@@ -34,4 +34,13 @@ export class Projectile extends Entity {
         const y = this.startY + elapsedTime * this.speed * Math.sin(radians(this.direction))/100;
         return new Point(x, y);
     }
+
+    detectEntityCollision(entity) {
+        if (!entity) return false;
+        if (Math.sqrt((entity.x - this.x)**2 + (entity.y-this.y)**2) < this.size) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 } 

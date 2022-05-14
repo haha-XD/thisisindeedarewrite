@@ -1,4 +1,4 @@
-export function registerManagerHandlers(manager, socket) {
+export function registerManagerHandlers(manager, socket, io) {
     const tick = function() {
         socket.emit(manager.currentTick);
     }
@@ -17,7 +17,13 @@ export function registerManagerHandlers(manager, socket) {
         const p = socket.profile;
         const wId = p.currentWorld
         const id = p.playerEntity.id;
+        io.emit('playerDisconnect', id)
+        io.emit('message', { 
+            playerName : '[SERVER]',
+            message : `${socket.profile.playerName} left the server.`
+        });
         manager.worlds[wId].deleteEntity(id);
+        manager.activeSockets = manager.activeSockets.filter((element) => element != socket);
         clearInterval(socket.updateInterval);
     }
 

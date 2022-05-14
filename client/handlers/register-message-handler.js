@@ -10,10 +10,7 @@ export function registerMessageHandler(manager, socket, msgBox) {
     }
 
     const onMessage = function({playerName, message}) {
-        const safeName = escapeMarkup(playerName);
-        const safeMessage = escapeMarkup(message);
-        console.log(`<b>\<${safeName}\></b>: ${safeMessage}<br>`);
-        manager.chatMsgs.push(`<b>${safeName}</b>: ${safeMessage}<br>`);
+        manager.chatMsgs.push(`<b>&lt;${playerName}&gt;</b>: ${message}<br>`);
         updateTextbox();
     }
 
