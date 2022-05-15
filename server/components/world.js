@@ -19,6 +19,7 @@ export default class World {
     constructor(worldName) {
         const worldData = JSON.parse(fs.readFileSync(`./server/worlds/${worldName}/world-data.json`, 'utf8'));
         
+        this.worldName = worldName;
         this.loadEnemyAI(worldName);
         this.loadMap(worldName, worldData['entityDict']);
         this.worldSpawns = worldData['spawns'].map((coords) => new Point(coords[0], coords[1]));
@@ -85,7 +86,6 @@ export default class World {
                     entityData.size = entityData.size || TILE_SIZE;
                     if (typeof entityData.ai == 'string') 
                     {
-                        console.log('test', entityData);
                         entityData.ai = this.enemyAI[entityData.ai];
                     }
                     const entity = new entityTypes[entityDict[char].entityType](entityData);

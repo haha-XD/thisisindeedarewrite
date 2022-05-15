@@ -4,6 +4,8 @@ import radians from "../common/utils/radians.js";
 import Vector2 from "../common/utils/vector2.js";
 
 export default class Renderer { 
+    undamagedTicks = 0;
+
     constructor(canvas, uiCanvas) {
         this.canvas = canvas;
         this.uiCanvas = uiCanvas;
@@ -39,6 +41,24 @@ export default class Renderer {
                 if (entity.category == ENTITY_CATEGORY.walls) continue;
 
                 const p = this.relativePosition(entity, player, rotation)
+                
+                if (manager.inGame) {
+                    if (entity.invincible) {
+                        this.ctx.fillStyle = "grey";
+                        this.ctx.fillRect(p.x-30, p.y + entity.size/2 + 19, 60, 7)
+                    } else if (entity.hp) {
+                        const ratioHp = (entity.hp / entity.maxhp) > 0 ? (entity.hp / entity.maxhp) : 0;
+                        this.ctx.fillStyle = "black";
+                        this.ctx.fillRect(p.x-30, p.y + entity.size/2 + 19, 60, 7)
+                        this.ctx.fillStyle = '#750800';
+                        this.ctx.fillRect(p.x-30, p.y + entity.size/2 + 19, 60 * ratioHp, 7)
+                    }
+                }
+
+                if (entity.damaged) {
+                    this.blit(entity.size + 12, p.x, p.y, 'black')
+                    entity.damaged = false;
+                }
 
                 if (entity.category == ENTITY_CATEGORY.players) {
                     const playerColour = entity.dead ? 'grey' : '#750800'
@@ -78,8 +98,8 @@ export default class Renderer {
                         const textWidth = this.ctx.measureText(entity.name).width; 
                         this.ctx.fillText(
                             entity.id, 
-                            p.x-textWidth/2,
-                            p.y+entity.size/2+15
+                            p.x+entity.size/2 -textWidth/2,
+                            p.y+entity.size/2+35
                         );    
                     }            
                 }
@@ -87,11 +107,39 @@ export default class Renderer {
         }
         
         //hp bar
-        this.drawHealthbar(player);
+        this.drawUI(player, manager);
+
+        for (const b of manager.buttonRects) {
+            this.ctx.fillStyle = b.colour;
+            this.ctx.fillRect(
+                b.x, b.y,
+                b.width, b.height
+            );
+            if (b.text) {
+                this.ctx.fillStyle = b.textColour ? b.textColour : "black";
+                this.ctx.font = b.font;
+                const textWidth = this.ctx.measureText(b.text).width; 
+                this.ctx.fillText(
+                    b.text, b.x + b.width/2 - textWidth/2, b.y + b.textYOffset 
+                );    
+            }
+        }
+        
+        if (manager.renderWhiteHp == player.hp) {
+            this.undamagedTicks += 1      
+        } else {
+            manager.renderWhiteHp = player.hp
+            this.undamagedTicks = 0
+        }
+
+        if (this.undamagedTicks >= 10) {
+            manager.renderHp = player.hp
+            this.undamagedTicks = 0
+        }
     }
 
-    drawHealthbar(player) {
-        if (!player.dead) {
+    drawUI(player, manager) {
+        if (!player.dead && manager.inGame) {
             let healthbarY = this.canvas.height * 8/9
             let healthbarX = this.canvas.width / 3.9
             this.ctx.fillStyle = "black";
@@ -102,10 +150,18 @@ export default class Renderer {
                 25
             );
             this.ctx.fillStyle = "#750800";
+            const ratioHp = (player.hp/player.maxhp) >= 0 ? (player.hp/player.maxhp) : 0
             this.ctx.fillRect(
                 healthbarX, 
                 healthbarY, 
-                healthbarX * 2 * (player.hp/player.maxhp), 
+                healthbarX * 2 * ratioHp, 
+                25
+            );
+            this.ctx.fillStyle = "white";
+            this.ctx.fillRect(
+                healthbarX + (healthbarX * 2 * ratioHp), 
+                healthbarY, 
+                healthbarX * 2 * (manager.renderHp - player.hp) / player.maxhp, 
                 25
             );
             this.ctx.fillStyle = "white";
@@ -123,6 +179,15 @@ export default class Renderer {
                 hpString, 
                 this.canvas.width/2 - textWidth/2, 
                 healthbarY + 20
+            );
+            this.ctx.fillStyle = "black";
+            this.canvas.font = "18px Lucida Console";
+            const dmgString = `${manager.damageDone} damage done (${Math.floor(manager.damageDone/manager.totalBossHp*100)}%).`;
+            const dmgTextWidth = this.ctx.measureText(dmgString).width; 
+            this.ctx.fillText(
+                dmgString, 
+                this.canvas.width/2 - dmgTextWidth/2, 
+                healthbarY + 45
             );
         }
     }

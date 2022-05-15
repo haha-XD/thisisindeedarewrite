@@ -8,6 +8,7 @@ export class Projectile extends Entity {
     objType = this.constructor.name;
     doNotUpdate = true;
     rotate = true;
+    hasNotHit = true;
 
     constructor({x, y, speed, size, lifetime, damage, direction, target}) {
         super(x, y, size, -1) //id is ALWAYS -1 because syncing is hard
@@ -35,7 +36,7 @@ export class Projectile extends Entity {
         return new Point(x, y);
     }
 
-    detectEntityCollision(entity) {
+    detectEnemyCollision(entity) {
         if (!entity) return false;
         if (Math.sqrt((entity.x - this.x)**2 + (entity.y-this.y)**2) < this.size) {
             return true;

@@ -1,6 +1,17 @@
-import { ENTITY_CATEGORY } from "../../client/common/constants.js";
+import { ENTITY_CATEGORY, PLAYERPROJDESC } from "../../client/common/constants.js";
 
 export function registerBulletAckHandler(manager, socket) {
+    const onTryHit = function({target}) {
+        if (target.invincible) return; 
+        let enemy = manager.worlds[socket.profile.currentWorld].enemies[target.id];
+        if (!enemy) return;
+        enemy.hp -= PLAYERPROJDESC.damage;
+        if (enemy.hp <= 0) {
+            enemy.dead = true;
+        }
+        socket.profile.damageDone += PLAYERPROJDESC.damage;
+    }
+
     const onBulletAck = function({id, clientTime}) {
         const p = socket.profile;
         const bp = p.bulletPatterns[id];
@@ -35,7 +46,7 @@ export function registerBulletAckHandler(manager, socket) {
                 bullet.x = pos.x;
                 bullet.y = pos.y;
                 if (!bullet.tick(world, elapsedTime)) rmvArray.push(bullet); 
-                if (bullet.detectEntityCollision(p.playerEntity) && 
+                if (bullet.detectEnemyCollision(p.playerEntity) && 
                     bullet.target==ENTITY_CATEGORY.players) {
                     p.playerEntity.hp -= bullet.damage;
                     rmvArray.push(bullet);
@@ -54,6 +65,7 @@ export function registerBulletAckHandler(manager, socket) {
 
     console.log('[SERVER] loaded bullet handler for', socket.profile.playerName)
 
+    socket.on('tryHit', onTryHit);
     socket.on('ackBulletPattern', onBulletAck);
     socket.on('time', onTime);
 }

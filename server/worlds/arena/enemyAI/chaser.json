@@ -4,14 +4,14 @@
             "behaviour" : ["shoot radialShotgun 10", "stateChangeTime waitTimer 30 wait"]
         },
         "wait" : {
-            "behaviour" : ["stateChangeTime waitTimer 6 stationaryShoot"]
+            "behaviour" : ["stateChangeTime sshootTimer 6 stationaryShoot"]
         }
     },
     "defaultState" : "stationaryShoot",
     "projectiles" : {
         "radialShotgun" : {
             "type" : "Radial",
-            "shotCount" : 20,
+            "shotCount" : 10,
             "direction" : 360,
             "projDesc": {
                 "target" : "players",

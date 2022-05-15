@@ -1,4 +1,5 @@
 import { CL_TICK_RATE } from "./common/constants.js"
+import GameClient from "./client-game.js";
 
 export default class GameMenu {
     gameStarted = false;
@@ -43,14 +44,13 @@ export default class GameMenu {
         }
     ];
 
-    constructor(game) {
-        this.game = game;
+    constructor() {
+        this.game = new GameClient();
         this.ctx = this.game.canvas.getContext('2d')
     }
 
     startMenu() {
         this.gameStarted = false;
-        this.game.stop()
         this.attachClickHandler();
         this.interval = setInterval(
             function(self) { return function() { self.render() } }(this), 
@@ -92,7 +92,6 @@ export default class GameMenu {
                 this.ctx.fillStyle = b.textColour ? b.textColour : "black";
                 this.ctx.font = b.font;
                 const textWidth = this.ctx.measureText(b.text).width; 
-                const textHeight = this.ctx.measureText(b.text).height; 
                 this.ctx.fillText(
                     b.text, b.x + b.width/2 - textWidth/2, b.y + b.textYOffset 
                 );    

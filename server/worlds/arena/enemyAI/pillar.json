@@ -1,13 +1,13 @@
 {
     "states" : {
         "standby" : {
-            "behaviour" : ["stateChangeTime aShootTimer 12 shootPatternRed"]
+            "behaviour" : ["stateChangeTime standbyTimer 12 shootPatternRed"]
         },
         "shootPatternRed" : {
-            "behaviour" : ["shoot radialShotgun 10", "stateChangeTime aShootTimer 20 shootPatternBlue"]
+            "behaviour" : ["shoot radialShotgun 20", "stateChangeTime blueShootTimer 60 shootPatternBlue"]
         },
         "shootPatternBlue" : {
-            "behaviour" : ["shootClosest targetedShot 20", "stateChangeTime aShootTimer 30 shootPatternRed"]
+            "behaviour" : ["shootClosest targetedShot 20", "stateChangeTime redShootTimer 40 shootPatternRed"]
         }
     },
     "defaultState" : "standby",

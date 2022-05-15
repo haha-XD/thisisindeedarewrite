@@ -9,6 +9,7 @@ import Networking from './components/networking.js';
 import Renderer from './components/renderer.js';
 
 export default class GameClient {
+
     constructor() {
         this.socket = io();
         this.canvas = document.getElementById('gameCanvas');
@@ -27,9 +28,9 @@ export default class GameClient {
 
             this.attachSendMessage();
 
-            this.controller = new Controller(this.canvas); 
             this.networking = new Networking(this.socket);
-            this.manager = new ClientManager(this.socket);
+            this.manager = new ClientManager(this.socket, this);
+            this.controller = new Controller(this.canvas, this.manager); 
             this.renderer = new Renderer(this.canvas, this.uiCanvas);
 
             h.registerMessageHandler(this.manager, this.socket, this.chatMessages);
@@ -51,10 +52,6 @@ export default class GameClient {
             }
             self.sendMsgBtn.addEventListener('click', sendMsg)
         })(this)
-    }
-
-    stop() {
-        if (this.interval) clearInterval(this.interval);
     }
 
     tick() {

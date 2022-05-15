@@ -1,6 +1,5 @@
 import Point from "../common/utils/point.js";
-import * as bulletPatterns from '../common/bullet-patterns/index.js';
-import { ENTITY_CATEGORY } from "../common/constants.js";
+import { FIRE_RATE, PLAYERPROJDESC } from "../common/constants.js";
 import { Projectile } from "../common/entities/projectile.js";
 
 /*
@@ -17,46 +16,41 @@ export default class Controller {
     rotationSpeed = 200;
     mouseHolding = false;
     mousePos = new Point(0,0)
+    lastShootTime = Date.now();
     mouseObj;
 
-    constructor(canvas) {
+    constructor(canvas, manager) {
         this.canvas = canvas;
+        this.manager = manager;
 
         this.attachKeyboardHandlers();
+        this.attachMouseHandlers();
+        this.attachClickHandler();
     }
 
     processInputs(manager, networking) {
         this.processKeyInputs(manager, networking);
+        this.processMouseInputs(manager, networking);
     }
 
     processMouseInputs(manager, networking) {
         const msgBox = document.getElementById('messageBox');
         const sendBtn = document.getElementById('sendMsgBtn');
-        if (this.mouseHolding) {
+        if (this.mouseHolding && Date.now() - this.lastShootTime > FIRE_RATE && !manager.player.dead) {
             if (document.activeElement == msgBox || document.activeElement == sendBtn) return;
-            if (true) {
-                const midX = this.canvas.width/2;
-                const midY = this.canvas.height/2;
-                const relativeX = this.mousePos.x - midX;
-                const relativeY = this.mousePos.y - midY; 
-                const angle = Math.atan2(relativeY, relativeX) * (180/Math.PI);
-
-                const testProjDesc = {
-                    x: manager.player.x,
-                    y: manager.player.y,
-                    speed: 200,
-                    size: 16,
-                    lifetime: 1000,
-                    damage: 10,
-                    direction: angle - this.rotation,
-                    target: ENTITY_CATEGORY.enemies
-                }
-                const testProj = new Projectile(testProjDesc);
-                manager.projectiles.push(testProj);
-                networking.socket.emit('tryShoot',  {
-                    clientTS: Date.now()
-                });
-            }
+            this.lastShootTime = Date.now()
+            const midX = this.canvas.width/2;
+            const midY = this.canvas.height/2;
+            const relativeX = this.mousePos.x - midX;
+            const relativeY = this.mousePos.y - midY; 
+            const angle = Math.atan2(relativeY, relativeX) * (180/Math.PI);
+            
+            let projDesc = PLAYERPROJDESC;
+            projDesc.direction = angle - this.rotation;
+            projDesc.x = manager.player.x;
+            projDesc.y = manager.player.y;
+            const proj = new Projectile(projDesc);
+            manager.projectiles.push(proj);
         }
     }
 
@@ -93,6 +87,7 @@ export default class Controller {
             }
         }
     }
+    
 
     clApplyInputs(inputs, dt) {
         if (inputs['KeyQ']) {
@@ -125,8 +120,7 @@ export default class Controller {
     }
 
     attachMouseHandlers() {
-        (function (self) {
-            const msgBox = document.getElementById('messageBox');
+        (function (self) {;
             function getCursorPosition(canvas, event) {
                 if (event) {
                     const rect = canvas.getBoundingClientRect()
@@ -155,6 +149,34 @@ export default class Controller {
             self.canvas.addEventListener('mousemove', (e) => {
                 self.mouseObj = e;
             })
+        })(this);
+    }    
+
+    attachClickHandler(manager) {
+        (function (self) {
+            function isInside(pos, rect){
+                return pos.x > rect.x && 
+                       pos.x < rect.x + rect.width && 
+                       pos.y < rect.y + rect.height && 
+                       pos.y > rect.y;
+            }
+
+            function getCursorPosition(canvas, event) {
+                const rect = canvas.getBoundingClientRect()
+                return {
+                    x: event.clientX - rect.left,
+                    y: event.clientY - rect.top
+                };
+            }			
+
+            window.addEventListener('click', function(event) {
+                let mousePos = getCursorPosition(self.canvas, event);
+                for (const rect of self.manager.buttonRects) {
+                    if (isInside(mousePos, rect) && rect.onClick) {
+                        rect.onClick(self.manager)
+                    }	
+                }
+            }, false);
         })(this);
     }
     

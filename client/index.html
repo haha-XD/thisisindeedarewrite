@@ -17,11 +17,9 @@
 		</div>
 
 		<script type = "module">
-			import GameClient from './client-game.js';
 			import GameMenu from './client-menu.js';
 
-			const game = new GameClient();
-			const menu = new GameMenu(game);
+			const menu = new GameMenu();
 			menu.startMenu();
 		</script>
 	</body>

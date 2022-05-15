@@ -37,8 +37,7 @@ const onConnection = (socket) => {
             playerName : '[SERVER]',
             message : '<br><em>Use "/ready" to join the next game.</em>'
         });
-
-
+        
         h.registerMessageHandler(manager, socket, io);
         h.registerManagerHandlers(manager, socket, io);
         h.registerInputHandlers(manager, socket);

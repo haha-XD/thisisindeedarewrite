@@ -20,9 +20,9 @@ export function registerManagerHandlers(manager, socket, io) {
         io.emit('playerDisconnect', id)
         io.emit('message', { 
             playerName : '[SERVER]',
-            message : `${socket.profile.playerName} left the server.`
+            message : `<em>${socket.profile.playerName} left the server.</em>`
         });
-        manager.worlds[wId].deleteEntity(id);
+        delete manager.worlds[wId].players[id];
         manager.activeSockets = manager.activeSockets.filter((element) => element != socket);
         clearInterval(socket.updateInterval);
     }

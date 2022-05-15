@@ -4,8 +4,8 @@ import { autoServerMessages } from "./autoServerMessages.js";
 export default function registerTicker(manager) {
     const tick = function() {
         manager.tick();
-        autoServerMessages(manager)
-        
+        autoServerMessages(manager);
+
         if ((manager.readyPlayerCount / manager.playerCount) >= 0.75 && manager.playerCount > 1 && !manager.gameStarting && !manager.inGame) {
             manager.gameStarting = true;
             manager.io.emit('message', {

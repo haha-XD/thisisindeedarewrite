@@ -9,6 +9,7 @@ export default class Profile {
 
     inGame = false;
     ready = false;
+    damageDone = 0;
     
     lastTimePacket = 0
 

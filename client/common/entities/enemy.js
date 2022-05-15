@@ -7,11 +7,17 @@ export class Enemy extends Entity {
     category = ENTITY_CATEGORY.enemies;
     objType = this.constructor.name;
     timers = {shootTimer: {timer: 0}};
+    dead = false;
+    damaged = false;
 
-    constructor({x, y, size, speed, ai, id=null}) { 
+    constructor({x, y, size, speed, ai, hp, invincible, boss, id=null}) { 
         super(x, y, size, id);
         this.speed = speed;
         this.ai = ai;
+        this.hp = hp;
+        this.maxhp = hp;
+        this.invincible = invincible;
+        this.boss = boss;
         this.aiState = ai.defaultState;
     }
     
