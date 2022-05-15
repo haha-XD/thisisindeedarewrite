@@ -14,7 +14,7 @@
         "*" : {
             "entityType" : "Enemy",
             "ai" : "pillar",
-            "size" : 96,
+            "size" : 32,
             "speed" : 400,
             "hp" : 1000,
             "invincible" : true
