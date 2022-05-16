@@ -85,23 +85,20 @@ export default class ClientManager {
             projectile.y = position.y;
             if(!projectile.tick(this, elapsedTime)) rmvArray.push(projectile);
             for (const enemy of Object.values(this.enemies)) {                
-                if (projectile.detectEnemyCollision(enemy) && 
+                if (projectile.detectEntityCollision(enemy) && 
                     projectile.target == ENTITY_CATEGORY.enemies) {
-                    console.log('hit enemy!', enemy.id)
                     socket.emit('tryHit', {
                         target: enemy
                     });
                     if (enemy.hp >= 0 && !enemy.invincible) {
                         this.damageDone += PLAYERPROJDESC.damage;
-                        enemy.damaged = true;
+                        enemy.damagedTicks = 20;
                     }
                 }
             }
             if (projectile.detectEnemyCollision(this.player) && 
-                projectile.target == ENTITY_CATEGORY.players &&
-                projectile.hasNotHit) {
-                this.player.damaged = true;
-                projectile.hasNotHit = false;
+                projectile.target == ENTITY_CATEGORY.players) {
+                rmvArray.push(projectile)
             }
         }
         this.entities.projectiles = this.projectiles.filter(element => !rmvArray.includes(element));

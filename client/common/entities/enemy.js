@@ -8,7 +8,7 @@ export class Enemy extends Entity {
     objType = this.constructor.name;
     timers = {shootTimer: {timer: 0}};
     dead = false;
-    damaged = false;
+    damagedTicks = 0;
 
     constructor({x, y, size, speed, ai, hp, invincible, boss, id=null}) { 
         super(x, y, size, id);

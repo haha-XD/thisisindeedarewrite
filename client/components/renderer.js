@@ -55,9 +55,9 @@ export default class Renderer {
                     }
                 }
 
-                if (entity.damaged) {
+                if (entity.damagedTicks > 0) {
                     this.blit(entity.size + 12, p.x, p.y, 'black')
-                    entity.damaged = false;
+                    entity.damagedTicks -= 1;
                 }
 
                 if (entity.category == ENTITY_CATEGORY.players) {
