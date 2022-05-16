@@ -1,4 +1,4 @@
-import { DEBUG_MODE, ENTITY_CATEGORY } from "../common/constants.js";
+import { DEBUG_MODE, ENTITY_CATEGORY, HEALTHBAR_FREEZE_TICKS } from "../common/constants.js";
 import Point from "../common/utils/point.js";
 import radians from "../common/utils/radians.js";
 import Vector2 from "../common/utils/vector2.js";
@@ -124,18 +124,6 @@ export default class Renderer {
                 );    
             }
         }
-        
-        if (manager.renderWhiteHp == player.hp) {
-            this.undamagedTicks += 1      
-        } else {
-            manager.renderWhiteHp = player.hp
-            this.undamagedTicks = 0
-        }
-
-        if (this.undamagedTicks >= 10) {
-            manager.renderHp = player.hp
-            this.undamagedTicks = 0
-        }
     }
 
     drawUI(player, manager) {
@@ -164,6 +152,17 @@ export default class Renderer {
                 healthbarX * 2 * (manager.renderHp - player.hp) / player.maxhp, 
                 25
             );
+            if (manager.tempHp == 0) manager.tempHp = player.hp;
+            if (manager.renderHp == 0) manager.renderHp = player.hp;
+            if (manager.tempHp == player.hp) { //no change
+                manager.undamagedTicks += 1;                
+            } else if (manager.tempHp != player) { //change
+                manager.undamagedTicks = 0;
+            }
+            if (manager.undamagedTicks >= HEALTHBAR_FREEZE_TICKS) {
+                manager.renderHp = player.hp
+            }
+            manager.tempHp = player.hp;
             this.ctx.fillStyle = "white";
             this.ctx.font = "20px Lucida Console";
             this.ctx.fillText(

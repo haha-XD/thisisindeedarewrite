@@ -4,12 +4,11 @@ body {
 
 .gameContainer {
     display: flex;
-    margin: auto;
-    width: 80%;
+    margin-left: 65px
 }
 
 .chatMessages {
-    height: 758px;
+    height: 658px;
     width: 300px;
     border: 1px solid; 
     background-color: #d3d3d3;

@@ -111,13 +111,14 @@ export default class GameMenu {
             function getCursorPosition(canvas, event) {
                 const rect = canvas.getBoundingClientRect()
                 return {
-                    x: event.clientX - rect.left,
-                    y: event.clientY - rect.top
+                    x: event.clientX - rect.left + 10,
+                    y: event.clientY - rect.top + 10
                 };
             }			
 
             window.addEventListener('click', function(event) {
-                let mousePos = getCursorPosition(self.game.canvas, event);
+                const mousePos = getCursorPosition(self.game.canvas, event);
+                console.log(mousePos)
                 for (const rect of self.buttonRects) {
                     if (isInside(mousePos, rect) && rect.onClick) {
                         rect.onClick(self);

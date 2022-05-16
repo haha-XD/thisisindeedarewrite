@@ -22,8 +22,8 @@ export default class ClientManager {
         projectiles : [] 
     };
     playerId;
+    tempHp = 0;
     renderHp = 0;
-    renderWhiteHp = 0;
     nonExistentPlayers = [];
     buttonRects = [
         {
@@ -93,6 +93,7 @@ export default class ClientManager {
                     if (enemy.hp >= 0 && !enemy.invincible) {
                         this.damageDone += PLAYERPROJDESC.damage;
                         enemy.damagedTicks = 20;
+                        rmvArray.push(projectile);
                     }
                 }
             }
