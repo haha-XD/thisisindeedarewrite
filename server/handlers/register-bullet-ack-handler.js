@@ -30,7 +30,7 @@ export function registerBulletAckHandler(manager, socket) {
         const world = manager.worlds[p.currentWorld];
         if (Date.now() - p.lastTimePacket > 3000 && p.lastTimePacket != 0) {
             socket.emit('message', {
-                playerName : "[SYSTEM]",
+                playerName : "[SERVER]",
                 message : "<em>You were disconnected because you took too long to send your time packet.</em>"
             })
             socket.disconnect();
