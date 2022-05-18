@@ -33,15 +33,30 @@ export default class Networking {
     }
 
     static updateState(manager, state) {
+        /*
+        This is a static function that updates the local state 
+        of a Manager object by parsing the entities sent by the 
+        server in a 'update' packet.
+        
+        Args:
+            manager : Manager object with local entities to be updated
+            state : an object dictionary of format { entityid : entity object }
+        Returns:
+            updated Manager object
+        */
+        let updatedManager = manager;
         for (let entity of Object.values(state)) {
-            if (!manager.entities[entity.category][entity.id]) {
+            //if an entity does not exist locally, create it locally and add a positionBuffer
+            if (!manager.entities[entity.category][entity.id]) { 
                 let newEntity = new entityTypes[entity.objType](entity);   
                 newEntity.positionBuffer = [];
                 manager.entities[entity.category][entity.id] = newEntity;
             }
+            //if the entity is the player, update everything
             if (entity.id == manager.playerId) {
                 Object.assign(manager.player, entity);
             } 
+            //if the entity is not the player, exists locally, and does not have the doNotUpdate flag.
             else if (!entity.doNotUpdate) {
                 let localEntity = manager.entities[entity.category][entity.id];
                 localEntity.positionBuffer.push({
@@ -49,11 +64,13 @@ export default class Networking {
                     x: entity.x,
                     y: entity.y
                 })
+                //delete these variables so they are not assigned to the localEntity
                 delete entity.x;
                 delete entity.y;
                 Object.assign(localEntity, entity);    
             }
         } 
+        return manager
     }
 
     static interpolateEntities(manager) {

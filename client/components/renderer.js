@@ -104,6 +104,15 @@ export default class Renderer {
                     }            
                 }
             }     
+            this.ctx.fillStyle = "black";
+            this.canvas.font = "18px Lucida Console";
+            const locString = `Player X:${player.x} Y:${player.y}`;
+            const locTextWidth = this.ctx.measureText(locString).width; 
+            this.ctx.fillText(
+                locString, 
+                this.canvas.width/2 - locTextWidth/2, 
+                645
+            );
         }
         
         //hp bar

@@ -1,4 +1,3 @@
-import GameMenu from "../client-menu.js";
 import { ENTITY_CATEGORY, PLAYERPROJDESC, SV_TICK_RATE } from "../common/constants.js";
 
 export default class ClientManager {
@@ -77,32 +76,32 @@ export default class ClientManager {
         this.dt = (nowTs - this.lastTs)/1000;
         this.lastTs = nowTs;
 
-        let rmvArray = [] //because removing during iteration is scary.
-        for (const projectile of this.projectiles) {
-            const elapsedTime = Date.now() - projectile.creationTs
-            const position = projectile.getPosition(elapsedTime);
-            projectile.x = position.x;
-            projectile.y = position.y;
-            if(!projectile.tick(this, elapsedTime)) rmvArray.push(projectile);
-            for (const enemy of Object.values(this.enemies)) {                
-                if (projectile.detectEntityCollision(enemy) && 
-                    projectile.target == ENTITY_CATEGORY.enemies) {
-                    socket.emit('tryHit', {
-                        target: enemy
-                    });
-                    if (enemy.hp >= 0 && !enemy.invincible) {
-                        this.damageDone += PLAYERPROJDESC.damage;
-                        enemy.damagedTicks = 20;
-                        rmvArray.push(projectile);
-                    }
-                }
-            }
-            if (projectile.detectEnemyCollision(this.player) && 
-                projectile.target == ENTITY_CATEGORY.players) {
-                rmvArray.push(projectile)
+let rmvArray = [] //because removing during iteration is scary.
+for (const projectile of this.projectiles) {
+    const elapsedTime = Date.now() - projectile.creationTs
+    const position = projectile.getPosition(elapsedTime);
+    projectile.x = position.x;
+    projectile.y = position.y;
+    if(!projectile.tick(this, elapsedTime)) rmvArray.push(projectile);
+    for (const enemy of Object.values(this.enemies)) {                
+        if (projectile.detectEntityCollision(enemy) && 
+            projectile.target == ENTITY_CATEGORY.enemies) {
+            socket.emit('tryHit', {
+                target: enemy
+            });
+            if (enemy.hp >= 0 && !enemy.invincible) {
+                this.damageDone += PLAYERPROJDESC.damage;
+                enemy.damagedTicks = 20;
+                rmvArray.push(projectile);
             }
         }
-        this.entities.projectiles = this.projectiles.filter(element => !rmvArray.includes(element));
+    }
+    if (projectile.detectCircleCollision(this.player) && 
+        projectile.target == ENTITY_CATEGORY.players) {
+        rmvArray.push(projectile)
+    }
+}
+this.entities.projectiles = this.projectiles.filter(element => !rmvArray.includes(element));
     }
 
     get players() { return this.entities.players }

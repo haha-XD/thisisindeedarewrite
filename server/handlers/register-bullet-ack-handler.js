@@ -46,7 +46,7 @@ export function registerBulletAckHandler(manager, socket) {
                 bullet.x = pos.x;
                 bullet.y = pos.y;
                 if (!bullet.tick(world, elapsedTime)) rmvArray.push(bullet); 
-                if (bullet.detectEnemyCollision(p.playerEntity) && 
+                if (bullet.detectCircleCollision(p.playerEntity) && 
                     bullet.target==ENTITY_CATEGORY.players) {
                     p.playerEntity.hp -= bullet.damage;
                     rmvArray.push(bullet);

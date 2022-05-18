@@ -36,7 +36,7 @@ export class Projectile extends Entity {
         return new Point(x, y);
     }
 
-    detectEnemyCollision(entity) {
+    detectCircleCollision(entity) {
         if (!entity) return false;
         if (Math.sqrt((entity.x - this.x)**2 + (entity.y-this.y)**2) < this.size) {
             return true;

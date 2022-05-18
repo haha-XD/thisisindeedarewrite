@@ -10,7 +10,7 @@ to the server.
 export default class Controller {
     #cmdNum = 0;
     svKeys = ['KeyW', 'KeyA', 'KeyS', 'KeyD'];
-    clKeys = ['KeyQ', 'KeyE', 'KeyT', 'KeyL']; // the server does not care about these keys
+    clKeys = ['KeyQ', 'KeyE', 'KeyT', 'KeyL', 'KeyK']; // the server does not care about these keys
     keysPressed = {};
     rotation = 0;
     rotationSpeed = 200;
@@ -62,15 +62,19 @@ export default class Controller {
             }
         }
 
-        const inputKeys = Object.keys(tInputs);
-        if (inputKeys.length != 0) { //is not empty?
+        if (Object.keys(tInputs).length != 0) { //is not empty?
             this.clApplyInputs(tInputs, manager.dt)
             
             if (tInputs['KeyL']) {
                 manager.clearEntities();    
             };
+            if (tInputs['KeyK']) {
+                tInputs['KeyW'] = 0.01;
+                this.rotation = 90;
+                console.log(tInputs);
+            }
 
-            if (inputKeys.filter((key) => this.svKeys.includes(key)).length) {
+            if (Object.keys(tInputs).filter((key) => this.svKeys.includes(key)).length) {
                 const packagedInput = {
                     num: this.#cmdNum,
                     rot: this.rotation,

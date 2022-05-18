@@ -10,7 +10,7 @@ export default class GameMenu {
             y : 300,
             width : 0,
             height : 0,
-            text : "JUST DODGE",
+            text : "DODGE GAME",
             textColour : '#750800',
             font : "100px Lucida Console",
             textXOffset : 50,
