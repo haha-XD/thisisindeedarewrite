@@ -87,7 +87,8 @@ export default class Renderer {
 
         for(const entity of Object.values(manager.entities.walls)) {
             const p = this.relativePosition(entity, player, rotation)
-            this.blitWallTop(entity.size, p.x, p.y - entity.size/2, rotation, "#750800");
+            const offsetY = LOW_SPEC_MODE ? p.y : p.y - entity.size/2;
+            this.blitWallTop(entity.size, p.x, offsetY, rotation, "#750800");
         }
 
         if (DEBUG_MODE) {
