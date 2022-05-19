@@ -11,6 +11,7 @@ export const ENTITY_CATEGORY = {
     projectiles : 'projectiles'
 }
 export const DEBUG_MODE = false;
+export const LOW_SPEC_MODE = true;
 export const HEALTHBAR_FREEZE_TICKS = 20;
 export const PLAYERPROJDESC = {
     speed: 100,

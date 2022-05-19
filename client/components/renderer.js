@@ -1,4 +1,4 @@
-import { DEBUG_MODE, ENTITY_CATEGORY, HEALTHBAR_FREEZE_TICKS } from "../common/constants.js";
+import { DEBUG_MODE, ENTITY_CATEGORY, HEALTHBAR_FREEZE_TICKS, LOW_SPEC_MODE } from "../common/constants.js";
 import Point from "../common/utils/point.js";
 import radians from "../common/utils/radians.js";
 import Vector2 from "../common/utils/vector2.js";
@@ -31,9 +31,11 @@ export default class Renderer {
         this.ctx.fillStyle = "#dedede";    
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        for(const entity of Object.values(manager.entities.walls)) {
-            const p = this.relativePosition(entity, player, rotation)
-            this.blitWallProjection(entity.size, p.x, p.y - entity.size/2, rotation, "#3d0400");
+        if (!LOW_SPEC_MODE) {
+            for(const entity of Object.values(manager.entities.walls)) {
+                const p = this.relativePosition(entity, player, rotation)
+                this.blitWallProjection(entity.size, p.x, p.y - entity.size/2, rotation, "#3d0400");
+            }
         }
 
         for (const entityType of Object.values(manager.entities)) {
