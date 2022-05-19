@@ -1,4 +1,4 @@
-import { ENTITY_CATEGORY, PLAYERPROJDESC } from "../../client/common/constants.js";
+import { DEBUG_MODE, ENTITY_CATEGORY, PLAYERPROJDESC } from "../../client/common/constants.js";
 
 export function registerBulletAckHandler(manager, socket) {
     const onTryHit = function({target}) {
@@ -28,7 +28,7 @@ export function registerBulletAckHandler(manager, socket) {
         //COLLISION CHECK
         const p = socket.profile;
         const world = manager.worlds[p.currentWorld];
-        if (Date.now() - p.lastTimePacket > 3000 && p.lastTimePacket != 0) {
+        if (Date.now() - p.lastTimePacket > 3000 && p.lastTimePacket != 0 && !DEBUG_MODE) {
             socket.emit('message', {
                 playerName : "[SERVER]",
                 message : "<em>You were disconnected because you took too long to send your time packet.</em>"

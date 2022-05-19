@@ -18,6 +18,7 @@ export class Player extends Entity {
 
     applyInput(rot, inputs, wallEntities) {
         let movementVec = Vector2.ZERO();
+        console.log(inputs);
         if (inputs['KeyW'] && inputs['KeyW'] <= 0.3) { //w 
             movementVec.add(Vector2.fromDirection(-rot+90, -inputs['KeyW']))
         }

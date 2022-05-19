@@ -10,7 +10,7 @@ export const ENTITY_CATEGORY = {
     enemies : 'enemies',
     projectiles : 'projectiles'
 }
-export const DEBUG_MODE = true;
+export const DEBUG_MODE = false;
 export const HEALTHBAR_FREEZE_TICKS = 20;
 export const PLAYERPROJDESC = {
     speed: 100,
