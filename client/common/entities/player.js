@@ -19,16 +19,16 @@ export class Player extends Entity {
     applyInput(rot, inputs, wallEntities) {
         let movementVec = Vector2.ZERO();
         console.log(inputs);
-        if (inputs['KeyW'] && inputs['KeyW'] <= 0.3) { //w 
+        if (inputs['KeyW'] && inputs['KeyW'] <= 1) { //w 
             movementVec.add(Vector2.fromDirection(-rot+90, -inputs['KeyW']))
         }
-        if (inputs['KeyS'] && inputs['KeyS'] <= 0.3) { //s
+        if (inputs['KeyS'] && inputs['KeyS'] <= 1) { //s
             movementVec.add(Vector2.fromDirection(-rot+90, inputs['KeyS']))
         }
-        if (inputs['KeyD'] && inputs['KeyD'] <= 0.3) { //d
+        if (inputs['KeyD'] && inputs['KeyD'] <= 1) { //d
             movementVec.add(Vector2.fromDirection(-rot, inputs['KeyD']))
         }
-        if (inputs['KeyA'] && inputs['KeyA'] <= 0.3) { //a
+        if (inputs['KeyA'] && inputs['KeyA'] <= 1) { //a
             movementVec.add(Vector2.fromDirection(-rot, -inputs['KeyA']))
         }
         movementVec.normalize(this.speed).divide(100).fix();
