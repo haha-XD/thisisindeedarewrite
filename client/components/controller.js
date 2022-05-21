@@ -1,5 +1,5 @@
 import Point from "../common/utils/point.js";
-import { FIRE_RATE, PLAYERPROJDESC } from "../common/constants.js";
+import { FIRE_RATE, PLAYER_PROJ_DESC } from "../common/constants.js";
 import { Projectile } from "../common/entities/projectile.js";
 
 /*
@@ -45,7 +45,7 @@ export default class Controller {
             const relativeY = this.mousePos.y - midY; 
             const angle = Math.atan2(relativeY, relativeX) * (180/Math.PI);
             
-            let projDesc = PLAYERPROJDESC;
+            let projDesc = PLAYER_PROJ_DESC;
             projDesc.direction = angle - this.rotation;
             projDesc.x = manager.player.x;
             projDesc.y = manager.player.y;
@@ -69,9 +69,7 @@ export default class Controller {
                 manager.clearEntities();    
             };
             if (tInputs['KeyK']) {
-                tInputs['KeyW'] = 0.01;
-                this.rotation = 90;
-                console.log(tInputs);
+                tInputs['KeyW'] = "lol";
             }
 
             if (Object.keys(tInputs).filter((key) => this.svKeys.includes(key)).length) {

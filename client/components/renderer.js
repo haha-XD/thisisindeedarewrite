@@ -1,4 +1,4 @@
-import { DEBUG_MODE, ENTITY_CATEGORY, HEALTHBAR_FREEZE_TICKS, LOW_SPEC_MODE } from "../common/constants.js";
+import { ENTITY_CATEGORY, RENDER_OPTIONS } from "../common/constants.js";
 import Point from "../common/utils/point.js";
 import radians from "../common/utils/radians.js";
 import Vector2 from "../common/utils/vector2.js";
@@ -31,7 +31,7 @@ export default class Renderer {
         this.ctx.fillStyle = "#dedede";    
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        if (!LOW_SPEC_MODE) {
+        if (!RENDER_OPTIONS.LOW_SPEC_MODE) {
             for(const entity of Object.values(manager.entities.walls)) {
                 const p = this.relativePosition(entity, player, rotation)
                 this.blitWallProjection(entity.size, p.x, p.y - entity.size/2, rotation, "#3d0400");
@@ -87,11 +87,11 @@ export default class Renderer {
 
         for(const entity of Object.values(manager.entities.walls)) {
             const p = this.relativePosition(entity, player, rotation)
-            const offsetY = LOW_SPEC_MODE ? p.y : p.y - entity.size/2;
+            const offsetY = RENDER_OPTIONS.LOW_SPEC_MODE ? p.y : p.y - entity.size/2;
             this.blitWallTop(entity.size, p.x, offsetY, rotation, "#750800");
         }
 
-        if (DEBUG_MODE) {
+        if (RENDER_OPTIONS.DEBUG_MODE) {
             for (const entityType of Object.values(manager.entities)) {
                 for (const entity of Object.values(entityType)) {
                     const p = this.relativePosition(entity, player, rotation)
@@ -171,7 +171,7 @@ export default class Renderer {
             } else if (manager.tempHp != player) { //change
                 manager.undamagedTicks = 0;
             }
-            if (manager.undamagedTicks >= HEALTHBAR_FREEZE_TICKS) {
+            if (manager.undamagedTicks >= RENDER_OPTIONS.HEALTHBAR_FREEZE_TICKS) {
                 manager.renderHp = player.hp
             }
             manager.tempHp = player.hp;
