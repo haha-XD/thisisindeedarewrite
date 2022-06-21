@@ -30,12 +30,18 @@ const onConnection = (socket) => {
         });
         socket.emit('message', {
             playerName : '[SERVER]',
-            message : '<br><em>Use "/name &lt;name&gt;" to change your name.</em>'
-        });
-        socket.emit('message', {
-            playerName : '[SERVER]',
-            message : '<br><em>Use "/ready" to join the next game.</em>'
-        });
+            message : `
+                <br><em><b>Welcome to Dodge Game.</b></em>
+                <br>
+                <em>Dodge bullets and shoot enemies!</em>
+                <br>
+                <em>List of commands:</em><br>
+                <em>/help - Displays this message</em><br>
+                <em>/ready - mark yourself as ready to join the next game</em><br>
+                <em>/name &lt;name&gt; - change your name</em><br>
+                <em>/ticket &lt;message&gt; - send a ticket to the server admin</em>
+            `
+        })
         
         h.registerMessageHandler(manager, socket, io);
         h.registerManagerHandlers(manager, socket, io);

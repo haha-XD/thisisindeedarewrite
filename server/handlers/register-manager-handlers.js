@@ -2,7 +2,7 @@ export function registerManagerHandlers(manager, socket, io) {
     const tick = function() {
         socket.emit(manager.currentTick);
     }
-    
+
     const onPing = function() {
         const p = socket.profile;
         const pId = p.playerEntity.id;
@@ -31,6 +31,6 @@ export function registerManagerHandlers(manager, socket, io) {
 
     socket.on('input', tick);
     socket.on('ping', onPing);
-
+    
     socket.on('disconnect', disconnect);
 }

@@ -28,7 +28,7 @@ export function registerBulletAckHandler(manager, socket) {
         //COLLISION CHECK
         const p = socket.profile;
         const world = manager.worlds[p.currentWorld];
-        if (Date.now() - p.lastTimePacket > 3000 && p.lastTimePacket != 0 && !RENDER_OPTIONS.DEBUG_MODE) {
+        if (Date.now() - p.lastTimePacket > 6000 && p.lastTimePacket != 0 && !RENDER_OPTIONS.DEBUG_MODE) {
             socket.emit('message', {
                 playerName : "[SERVER]",
                 message : "<em>You were disconnected because you took too long to send your time packet.</em>"

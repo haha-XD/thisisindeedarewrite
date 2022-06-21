@@ -68,6 +68,28 @@ export function registerMessageHandler(manager, socket, io) {
                     socket.profile.playerEntity.name = name;
                 }
             }
+
+            if (command.startsWith('ticket')) {
+                const message = escapeMarkup(command.split(' ').slice(1).join(' '));
+                console.log(message);
+            }
+
+            if (command.startsWith('help')) {
+                socket.emit('message', {
+                    playerName : '[SERVER]',
+                    message : `
+                        <br><em><b>Welcome to Dodge Game.</b></em>
+                        <br>
+                        <em>Dodge bullets and shoot enemies!</em>
+                        <br>
+                        <em>List of commands:</em><br>
+                        <em>/help - Displays this message</em><br>
+                        <em>/ready - mark yourself as ready to join the next game</em><br>
+                        <em>/name &lt;name&gt; - change your name</em><br>
+                        <em>/ticket &lt;message&gt; - send a ticket to the server admin</em>
+                    `
+                })
+            }
         }
         else { //chat message
             io.emit('message', { 
